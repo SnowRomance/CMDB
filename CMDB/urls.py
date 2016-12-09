@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from CMDB.app import urls as app_urls
+import sys, os
+sys.path.append(os.getcwd())
+from app import urls as app_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include(app_urls)),
     url(r'^app/', include(app_urls)),
 ]
