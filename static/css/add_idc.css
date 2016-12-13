@@ -2,12 +2,14 @@ body {
     width: 100%;
     margin: 0 auto;
     padding: 0 auto;
+	font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #top {
     width: 100%;
     height: 100px;
-    background-color: #038dcb;
+    background-color: #555555;
+    text-shadow: 1px 1px 1px #444;
     text-align: left;
 }
 
@@ -15,7 +17,7 @@ body {
     display: block;
     padding-left: 30px;
     padding-top: 30px;
-    color: white;
+    color: #D3D3D3;
 }
 
 #left {
@@ -25,26 +27,32 @@ body {
     width: 100px;
 }
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
+#menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
-
-ul li {
-    border: 1px solid gray;
-    background-color: #702020;
-    color: red;
+#menu li {
+    display: block;
+    width: 200px;
+	font-size: 100%;
+    text-shadow: 1px 1px 1px #444;
+    border: none;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
 }
-
-ul li a {
-    text-decoration: none;
+#menu a {
+	background: #555555;
+	color: #ccc;
+	display: list-item;
+	padding: 8px 12px;
+	font-weight: normal;
+	text-decoration: none;
 }
-
-.lab_tab {
-    color: white;
-    font-size: 13px;
+#menu a:hover {
+	background: #2580a2;
+	color: #fff;
 }
 
 #right {
@@ -52,38 +60,97 @@ ul li a {
     height: 300px;
     margin-right: 70px;
     margin-top: 35px;
-    width: 75%;
+    width: 65%;
 }
 
-table.hovertable {
-    width: 900px;
-	font-family: verdana,arial,sans-serif;
-	font-size:11px;
-	color:#333333;
-	border-width: 1px;
-	border-color: #999999;
-	border-collapse: collapse;
+.dark-matter {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 500px;
+    background: #555;
+    padding: 20px 30px 20px 30px;
+    color: #D3D3D3;
+    text-shadow: 1px 1px 1px #444;
+    border: none;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
 }
-table.hovertable tr {
-	background-color:#d4e3e5;
+.dark-matter h1 {
+    padding: 0px 0px 10px 40px;
+    display: block;
+    border-bottom: 1px solid #444;
+    margin: -10px -30px 30px -30px;
 }
-table.hovertable th {
-    width: 50%;
-	background-color:#c3dde0;
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #a9c6c9;
+.dark-matter h1>span {
+    display: block;
+    font-size: 11px;
 }
-table.hovertable td {
-	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
-	border-color: #a9c6c9;
+.dark-matter label {
+    display: block;
+    margin: 0px 0px 5px;
+}
+.dark-matter label>span {
+    float: left;
+    width: 20%;
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+.dark-matter input[type="text"], .dark-matter input[type="email"], .dark-matter textarea, .dark-matter select {
+    border: none;
+    color: #525252;
+    height: 25px;
+    line-height:15px;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 5px 0px 5px 5px;
+    width: 70%;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    background: #DFDFDF;
+}
+.dark-matter select {
+    background: #DFDFDF url('down-arrow.png') no-repeat right;
+    background: #DFDFDF url('down-arrow.png') no-repeat right;
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+    width: 70%;
+    height: 35px;
+    color: #525252;
+    line-height: 25px;
+}
+.dark-matter textarea{
+    height:100px;
+    padding: 5px 0px 0px 5px;
+    width: 70%;
+}
+.dark-matter .button {
+    background: #FFCC02;
+    border: none;
+    padding: 10px 25px 10px 25px;
+    color: #585858;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    text-shadow: 1px 1px 1px #FFE477;
+    font-weight: bold;
+    box-shadow: 1px 1px 1px #3D3D3D;
+    -webkit-box-shadow:1px 1px 1px #3D3D3D;
+    -moz-box-shadow:1px 1px 1px #3D3D3D;
 }
 
-.button {
-    position: fixed;
-    bottom: 50px;
-    right: 70px;
+.dark-matter .button:hover {
+    color: #333;
+    background-color: #EBEBEB;
 }
+
+

@@ -20,9 +20,9 @@ def get_add_idc_page(request):
 
 
 def add_idc(request):
-    idc_name = request.GET.get("idc_name")
-    idc_remark = request.GET.get("idc_remark")
-
+    idc_name = request.POST.get("idc_name")
+    idc_remark = request.POST.get("idc_remark")
+    print "In add"
     idc = Idc()
     idc.idc_name = str(idc_name)
     idc.remark = str(idc_remark)
