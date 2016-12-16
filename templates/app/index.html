@@ -3,7 +3,7 @@
 <head>
     <title>Manager</title>
     <link rel="stylesheet" href="/static/libs/bootstrap/3.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/static/css/add_idc.css"/>
+    <link rel="stylesheet" href="/static/css/app/index.css"/>
 </head>
 <body>
 <div id="top">
@@ -46,25 +46,7 @@
 </div>
 
 <div id="right">
-    <form action="/app/add_idc/" method="post" class="dark-matter">
-        {% csrf_token %}
-        <h1>IDC Form
-            <span>Please fill all the texts in the fields.</span>
-        </h1>
-        <label>
-            <span>IDC Name :</span>
-            <input id="name" type="text" name="idc_name" placeholder="idc_name"/>
-        </label>
 
-        <label>
-            <span>IDC Remark :</span>
-            <input id="email" type="text" name="idc_remark" placeholder="idc_remark"/>
-        </label>
-        <label>
-            <span>&nbsp;</span>
-            <input type="submit" class="button" value="Send"/>
-        </label>
-    </form>
 </div>
 
 </body>

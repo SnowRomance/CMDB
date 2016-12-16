@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Account</title>
+    <link rel="stylesheet" href="/static/libs/bootstrap/3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/account/userregister.css"/>
+</head>
+<body>
+<form method = 'post' enctype="multipart/form-data">
+
+    <div class="field">
+        {{ registerForm.username.errors }}
+        <label for="id_username">用户名：</label>
+        {{ registerForm.username }}
+    </div>
+    <div class="field">
+        {{ registerForm.password1.errors }}
+        <label for="id_password1">密码：</label>
+        {{ registerForm.password1 }}
+    </div>
+    <div class="field">
+        {{ registerForm.password2.errors }}
+        <label for="id_password2">确认密码：</label>
+        {{ registerForm.password2 }}
+    </div>
+    <div class="field">
+        {{ registerForm.email.errors }}
+        <label for="id_phone">邮箱：</label>
+        {{ registerForm.email }}
+    </div>
+    <div class="field">
+        {{ registerForm.phone.errors }}
+        <label for="id_phone">手机号码：</label>
+        {{ registerForm.phone }}
+    </div>
+    <input type="submit" value = "注册" class="button" />
+</form>
+</body>
+</html>

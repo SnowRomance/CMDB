@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import urllib2,urllib
+import re
 
 try:
     import json
@@ -23,6 +24,9 @@ class SaltAPI(object):
             self.__token_id = content['return'][0]['token']
         except KeyError:
             raise KeyError
+
+    def get_token_id(self):
+        return self.__token_id
 
     def postRequest(self,obj,prefix='/'):
         url = self.__url + prefix
@@ -66,10 +70,13 @@ class SaltAPI(object):
         ret = content['return'][0][tgt]
         return ret
 
-    def remote_execution(self,tgt,fun,arg):
-        ''' Command execution with parameters '''        
-        params = {'client': 'local', 'tgt': tgt, 'fun': fun, 'arg': arg}
+    def remote_execution(self,tgt,fun, args):
+        ''' Command execution with parameters '''
+        params = {'client': 'local', 'tgt': tgt, 'fun': fun}
+        for k,v in args.iteritems():
+            params[k] = v
         obj = urllib.urlencode(params)
+        obj, number = re.subn("arg\d", 'arg', obj)
         self.token_id()
         content = self.postRequest(obj)
         ret = content['return']
@@ -111,15 +118,25 @@ class SaltAPI(object):
         jid = content['return'][0]['jid']
         return jid
 
+
 def main():
-    sapi = SaltAPI(url='https://127.0.0.1:8888',username='salt',password='salt')
-    #sapi.token_id()
+    import ssl
+    ssl._create_default_https_context = ssl._create_unverified_context
+    sapi = SaltAPI(url='https://120.76.130.53:8888',username='salt',password='salt')
+    # sapi.token_id()
     #print sapi.list_all_key()
     #sapi.delete_key('test-01')
     #sapi.accept_key('test-01')
     #sapi.deploy('test-01','nginx')
-    #print sapi.remote_noarg_execution('test-01','grains.items')
-#    print sapi.remote_execution('client1','cmd.run','ifconfig --return mysql_return')
+    # print sapi.remote_noarg_execution('iZ940kub0iuZ','test.ping')
+    # print sapi.remote_execution('iZ940kub0iuZ','user.chshell', '')
+    # print sapi.remote_noarg_execution('iZ940kub0iuZ','ssh.user_keys')
+    # print sapi.remote_execution('iZ940kub0iuZ','user.add', {'arg1':'yangjunliu'})
+    # print sapi.remote_execution('iZ940kub0iuZ','cmd.run',{'arg1':"ssh-keygen -t dsa -P '' -f /home/yangjunliu/.ssh/id_rsa", 'arg2': 'runas=yangjunliu'})
+    # print sapi.remote_execution('iZ940kub0iuZ', 'cmd.run', {'arg1': 'cp /home/yangjunliu/.ssh/id_rsa.pub /home/yangjunliu/.ssh/authorized_keys', 'arg2':'runas=yangjunliu'})
+
+    # print sapi.remote_execution('iZ940kub0iuZ', 'copy.file', {})
+
 
 if __name__ == '__main__':
     main()

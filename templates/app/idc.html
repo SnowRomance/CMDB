@@ -3,7 +3,7 @@
 <head>
     <title>Manager</title>
     <link rel="stylesheet" href="/static/libs/bootstrap/3.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/static/css/idc.css"/>
+    <link rel="stylesheet" href="/static/css/app/idc.css"/>
 </head>
 <body>
 <div id="top">
@@ -49,14 +49,20 @@
     <table class="hovertable">
         <tr>
             <th>集群名称</th>
+            <th>主机组数量</th>
+            <th>主机数量</th>
+            <th>创建时间</th>
             <th>备注</th>
             <th>操作</th>
         </tr>
         {% for idc in idc_list %}
             <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
                 <td>{{idc.idc_name}}</td>
-                <td>{{idc.remark}}</td>
-                <td><span>修改</span><span>删除</span></td>
+                <td>{% if idc.groups == 0 %}0{% else %} {{idc.groups}} {% endif %}</td>
+                <td>{% if idc.hosts == 0 %}0{% else %} {{idc.hosts}} {% endif %}</td>
+                <td>{{idc.create_time}}</td>
+                <td><span class="glyphicon glyphicon-wrench" ></span>&nbsp;{{idc.remark}}</td>
+                <td><span class="glyphicon glyphicon-remove"></span></td>
             </tr>
         {% endfor %}
     </table>
