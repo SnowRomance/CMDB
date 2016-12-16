@@ -20,6 +20,7 @@ def index(request):
 
 def ssh_key(email):
     salt_master_ip = ["120.76.130.53"]
+    salt_master_name = ["iZ94fa46qhcZ"]
     jumper_ip = ["iZ940kub0iuZ"]
     ### 获取 user
     user = ""
@@ -31,7 +32,7 @@ def ssh_key(email):
     #### cp 文件
     cp_cmd = "cp /home/"+ user+"/.ssh/id_rsa.pub /home/"+user+"/.ssh/authorized_keys"
     #### mv 文件
-    mv_cmd = "mv /var/cache/salt/master/minions/"+user+"/files/home/"+user+"/.ssh/id_rsa /web/CMDB/static/upload/"+user+"_cmdb_login_id_rsa"
+    mv_cmd = "mv /var/cache/salt/master/minions/"+jumper_ip[0]+"/files/home/"+user+"/.ssh/id_rsa /web/CMDB/static/upload/"+user+"_cmdb_login_id_rsa"
 
     cf = ConfigParser.ConfigParser()
     cf.read("/web/CMDB/app/backend/config.ini")
@@ -52,21 +53,20 @@ def ssh_key(email):
         print sapi.remote_execution(jumper_ip[ip_num], 'cmd.run',
                                     {'arg1': cp_cmd,
                                     'arg2': 'runas='+user})
-
     salt_url = "https://" + salt_master_ip[0] + ":8888"
     sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
-    print sapi.remote_execution(jumper_ip[0], 'cp.push', '/home/'+ user +'/.ssh/id_rsa')
+    print sapi.remote_execution(jumper_ip[0], 'cp.push', {'arg1':'/home/'+ user +'/.ssh/id_rsa'})
     # print sapi.remote_execution(salt_master_ip[0], 'cmd.run',
     #                             {'arg1': "sz /var/cache/salt/master/minions/"+jumper_ip[0]+"/files/home/"+user+"/.ssh/id_rsa",
     #                             })
-    print sapi.remote_execution(jumper_ip[0], 'cmd.run', {'arg1': mv_cmd})
+    print sapi.remote_execution(salt_master_name[0], 'cmd.run', {'arg1': mv_cmd})
 
     mail_host = 'smtp.exmail.qq.com'
     mail_user = 'yangjun.liu@quvideo.com'
     mail_pass = 'Lyj!2015'
 
     se = send_email.EmailSender(mail_host, mail_user, mail_pass)
-    se.send("cmdb 使用", email, jumper_ip)
+    se.send("cmdb 使用", [email], ["iZ940kub0iuZ"])
     se.close()
 
 # @login_required()
