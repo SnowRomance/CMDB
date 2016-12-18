@@ -3,7 +3,7 @@
 <head>
     <title>Manager</title>
     <link rel="stylesheet" href="/static/libs/bootstrap/3.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/static/css/app/index.css"/>
+    <link rel="stylesheet" href="/static/css/app/add_group.css"/>
 </head>
 <body>
 <div id="top">
@@ -46,7 +46,29 @@
 </div>
 
 <div id="right">
+    <form action="/app/add_group/" method="post" class="dark-matter">
+        {% csrf_token %}
+        <h1>Group Form
+            <span>Please fill all the texts in the fields.</span>
+        </h1>
+        <label>
+            <span>Group Name :</span>
+            <input id="name" type="text" name="group_name" placeholder="group_name"/>
+        </label>
 
+        <label>
+            <span>Idc :</span>
+            <select id="idc" name="idc_name">
+                {% for idc in idc_list %}
+                    <option>{{ idc.idc_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            <span>&nbsp;</span>
+            <input type="submit" class="button" value="Send"/>
+        </label>
+    </form>
 </div>
 
 </body>

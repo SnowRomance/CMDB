@@ -64,8 +64,8 @@ body {
 }
 
 table.hovertable {
-    margin-left: 0px;
-    width: 750px;
+    margin-left: 10px;
+    width: 700px;
 	font-family: verdana,arial,sans-serif;
 	font-size:7px;
 	color:#333333;

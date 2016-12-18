@@ -19,13 +19,13 @@
             <a href="/app/idc"><i class="glyphicon glyphicon-tasks lab_tab">&nbsp;集群管理</i></a>
         </li>
         <li>
-            <a href="/app/mac"><i class="glyphicon glyphicon-tasks lab_tab">&nbsp;主机管理</i></a>
+            <a href="/app/group"><i class="glyphicon glyphicon-tasks lab_tab">&nbsp;主机组管理</i></a>
         </li>
         <li>
-            <a href="/app/asset"><i class="glyphicon glyphicon-list-alt lab_tab">&nbsp;资产审计</i></a>
+            <a href="/app/asset"><i class="glyphicon glyphicon-tasks lab_tab">&nbsp;主机管理</i></a>
         </li>
         <li>
-            <a href="/app/asset_auto"><i class="glyphicon glyphicon-list-alt lab_tab">&nbsp;资产采集</i></a>
+            <a href="/app/asset_auto"><i class="glyphicon glyphicon-tasks lab_tab">&nbsp;主机采集</i></a>
         </li>
         <li>
             <a href="/app/group"><i class="glyphicon glyphicon-list-alt lab_tab">&nbsp;分组管理</i></a>
@@ -61,7 +61,7 @@
                 <td>{% if idc.groups == 0 %}0{% else %} {{idc.groups}} {% endif %}</td>
                 <td>{% if idc.hosts == 0 %}0{% else %} {{idc.hosts}} {% endif %}</td>
                 <td>{{idc.create_time}}</td>
-                <td><span class="glyphicon glyphicon-wrench" ></span>&nbsp;{{idc.remark}}</td>
+                <td><span class="glyphicon glyphicon-wrench" data-idcid="{{ idc.id }}"></span>&nbsp;<label>{{idc.remark}}</label></td>
                 <td><span class="glyphicon glyphicon-remove"></span></td>
             </tr>
         {% endfor %}
@@ -70,4 +70,6 @@
 </div>
 
 </body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/idc.js"></script>
 </html>
