@@ -3,7 +3,7 @@
 <head>
     <title>Manager</title>
     <link rel="stylesheet" href="/static/libs/bootstrap/3.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/static/css/app/index.css"/>
+    <link rel="stylesheet" href="/static/css/app/add_idc.css"/>
 </head>
 <body>
 <div id="top">
@@ -46,7 +46,37 @@
 </div>
 
 <div id="right">
+    <form action="/app/add_host/" method="post" class="dark-matter">
+        {% csrf_token %}
+        <h1>Host Form
+            <span>Please fill all the texts in the fields.</span>
+        </h1>
+        <label>
+            <span>Idc :</span>
+            <select id="idc" name="idc_name">
+                {% for idc in idc_list %}
+                    <option>{{ idc.idc_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            <span>Group :</span>
+            <select id="group" name="group_name">
+                {% for group in group_list %}
+                    <option>{{ group.group_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
 
+        <label>
+            <span>Host IP :</span>
+            <input id="host_ip" type="text" name="host_ip" placeholder="host_ip"/>
+        </label>
+        <label>
+            <span>&nbsp;</span>
+            <input type="submit" class="button" value="Send"/>
+        </label>
+    </form>
 </div>
 
 </body>

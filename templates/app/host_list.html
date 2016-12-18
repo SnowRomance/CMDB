@@ -3,7 +3,7 @@
 <head>
     <title>Manager</title>
     <link rel="stylesheet" href="/static/libs/bootstrap/3.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/static/css/app/index.css"/>
+    <link rel="stylesheet" href="/static/css/app/host_list.css"/>
 </head>
 <body>
 <div id="top">
@@ -46,8 +46,29 @@
 </div>
 
 <div id="right">
-
+    <table class="hovertable">
+        <tr>
+            <th>集群名称</th>
+            <th>主机组</th>
+            <th>主机名称</th>
+            <th>主机大小</th>
+            <th>公网IP</th>
+            <th>私网IP</th>
+            <th>操作</th>
+        </tr>
+        {% for host in host_list %}
+            <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+                <td>{{ group.idc_remark }}</td>
+                <td>{{ group.group_name }}</td>
+                <td><span class="glyphicon glyphicon-wrench" data-groupid="{{ group.group_id }}"></span>&nbsp;<label>{{ group.remark }}</label></td>
+                <td><a href="#{{ hg.group_id }}">{{ group.host_count }}</a></td>
+                <td><span class="glyphicon glyphicon-remove"></span></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <!--<a href="/app/get_add_group_page" class="btn">Add HostGroup</a>-->
 </div>
-
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/host_list.js"></script>
 </body>
 </html>

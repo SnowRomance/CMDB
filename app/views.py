@@ -103,3 +103,20 @@ def modify_group_remark(request):
     response.write(rjson)
     return response
 
+
+### host_list ###
+def host_list(request):
+    host_list = HostList.objects.all().order_by("idc_name", "group_name")
+    return render_to_response("app/host_list.html", {"host_list": host_list})
+
+
+def get_add_host_page(request):
+    idc_list = Idc.objects.all()
+    group_list = Group.objects.all()
+    return render_to_response("app/add_host.html", {"idc_list": idc_list, "group_list": group_list})
+
+
+def add_host(request):
+    idc_name = request.POST.get("idc_name")
+    group_name = request.POST.get("group_name")
+

@@ -36,7 +36,6 @@ class HostList(models.Model):
     ip = models.GenericIPAddressField(unique=True, verbose_name=u'IP地址')
     hostname = models.CharField(max_length=30, verbose_name=u'主机名')
     group_name = models.CharField(max_length=50, null=True, unique=True, verbose_name=u'组名')
-    application = models.CharField(max_length=20, verbose_name=u'应用')
     nick_name = models.CharField(max_length=30, null=True, verbose_name=u'主机别名')
     idc_name = models.CharField(max_length=40, null=True, blank=True, verbose_name=u'所属机房')
 
