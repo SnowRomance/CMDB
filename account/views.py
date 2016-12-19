@@ -7,7 +7,6 @@ from forms import RegisterForm
 from models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
 from app.backend.saltapi import *
 import ConfigParser
 import send_email
@@ -92,19 +91,6 @@ def userRegister(request):
                 return render_to_response("account/userregister.html",
                                           {'registerForm': registerForm, 'curtime': curtime, 'username': username,
                                            'email': email, 'errors': errors})
-            # errors.extend(registerForm.errors.values())
-            #     return render_to_response("account/userregister.html",
-            #                               {'registerForm':registerForm, 'curtime': curtime, 'username': username, 'email': email, 'errors': errors})
-            # if password1 != password2:
-            #     errors.append("两次输入的密码不一致!")
-            #     return render_to_response("account/userregister.html",
-            #                               {'registerForm':registerForm, 'curtime': curtime, 'username': username, 'email': email, 'errors': errors})
-            #
-            # filterResult = User.objects.filter(username=username)
-            # if len(filterResult) > 0:
-            #     errors.append("用户名已存在")
-            #     return render_to_response("account/userregister.html",
-            #                               {'registerForm':registerForm, 'curtime': curtime, 'username': username, 'email': email, 'errors': errors})
 
             user = User()
             user.username = username

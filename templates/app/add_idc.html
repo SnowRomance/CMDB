@@ -47,7 +47,6 @@
 
 <div id="right">
     <form action="/app/add_idc/" method="post" class="dark-matter">
-        {% csrf_token %}
         <h1>IDC Form
             <span>Please fill all the texts in the fields.</span>
         </h1>
@@ -59,6 +58,14 @@
         <label>
             <span>IDC Remark :</span>
             <input id="email" type="text" name="idc_remark" placeholder="idc_remark"/>
+        </label>
+        <label>
+            <span>Salt IP :</span>
+            <input id="salt" type="text" name="idc_salt" placeholder="idc_salt"/>
+        </label>
+        <label>
+            <span>Jump IP :</span>
+            <input id="jump" type="text" name="idc_jump" placeholder="idc_jump"/>
         </label>
         <label>
             <span>&nbsp;</span>

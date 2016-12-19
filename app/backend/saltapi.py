@@ -135,8 +135,13 @@ def main():
     # print sapi.remote_execution('iZ940kub0iuZ','cmd.run',{'arg1':"ssh-keygen -t dsa -P '' -f /home/yangjunliu/.ssh/id_rsa", 'arg2': 'runas=yangjunliu'})
     # print sapi.remote_execution('iZ940kub0iuZ', 'cmd.run', {'arg1': 'cp /home/yangjunliu/.ssh/id_rsa.pub /home/yangjunliu/.ssh/authorized_keys', 'arg2':'runas=yangjunliu'})
 
-    # print sapi.remote_execution('iZ940kub0iuZ', 'copy.file', {})
-
+    # print sapi.remote_execution('120.76.130.53', 'cmd.run', {'arg1': "mv /var/cache/salt/master/minions/iZ940kub0iuZ/files/home/yangjunliu/.ssh/id_rsa /web/CMDB/static/upload/yangjunliu_cmdb_login_id_rsa"})
+    accepet_keys = sapi.list_all_key()
+    print accepet_keys[0]
+    for ac_key in accepet_keys[0]:
+        content = sapi.remote_noarg_execution(ac_key, 'grains.items')
+        print content['id']
+        print content['ip_interfaces']
 
 if __name__ == '__main__':
     main()

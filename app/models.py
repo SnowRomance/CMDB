@@ -4,7 +4,7 @@ import datetime
 
 
 class Idc(models.Model):
-    id = models.IntegerField(primary_key=True, verbose_name=u'机房Id')
+    id = models.AutoField(primary_key=True, verbose_name=u'机房Id')
     idc_name = models.CharField(max_length=40, unique=True, verbose_name=u'机房名称')
     remark = models.CharField(max_length=40, verbose_name=u'备注')
     salt_ip = models.GenericIPAddressField(null=True, verbose_name=u'管理机器IP')
@@ -12,7 +12,7 @@ class Idc(models.Model):
     create_time = models.DateField(default=datetime.datetime.now(), verbose_name=u'创建时间')
 
     def __unicode__(self):
-        return {"id": self.id, "idc_name": self.idc_name, "remark": self.remark, "create_time": self.create_time}
+        return {"id": self.id, "idc_name": self.idc_name, "remark": self.remark, "salt_ip": str(self.salt_ip), "jumper_ip": str(self.jumper_ip),"create_time": self.create_time}
 
     class Meta:
         verbose_name = u'机房列表'
@@ -57,7 +57,9 @@ class ServerAsset(models.Model):
     mem = models.CharField(max_length=100, verbose_name=u'内存大小')
     disk = models.CharField(max_length=300, verbose_name=u'硬盘大小')
     hostname = models.CharField(max_length=30, verbose_name=u'主机名')
+    hostname_nick = models.CharField(max_length=50, null=True, verbose_name=u'主机别名')
     ip = models.CharField(max_length=20, verbose_name=u'IP地址')
+    inner_ip = models.CharField(max_length=20, verbose_name=u'内网IP地址')
     os = models.CharField(max_length=20, verbose_name=u'操作系统')
 
     def __unicode__(self):
