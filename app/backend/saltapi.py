@@ -140,8 +140,9 @@ def main():
     print accepet_keys[0]
     for ac_key in accepet_keys[0]:
         content = sapi.remote_noarg_execution(ac_key, 'grains.items')
-        print content['id']
-        print content['ip_interfaces']
+        print sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'echo $PATH'})
+        # print content['id']
+        # print content['ip_interfaces']
 
 if __name__ == '__main__':
     main()

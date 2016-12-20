@@ -51,22 +51,22 @@
             <th>集群名称</th>
             <th>主机组</th>
             <th>主机名称</th>
-            <th>主机大小</th>
             <th>公网IP</th>
             <th>私网IP</th>
             <th>操作</th>
         </tr>
         {% for host in host_list %}
             <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-                <td>{{ group.idc_remark }}</td>
-                <td>{{ group.group_name }}</td>
-                <td><span class="glyphicon glyphicon-wrench" data-groupid="{{ group.group_id }}"></span>&nbsp;<label>{{ group.remark }}</label></td>
-                <td><a href="#{{ hg.group_id }}">{{ group.host_count }}</a></td>
+                <td>{{ host.idc_name }}</td>
+                <td>{{ host.group_name }}</td>
+                <td><span class="glyphicon glyphicon-wrench" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.hostname }}</label></td>
+                <td><span class="glyphicon glyphicon-wrench" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.ip }}</label></td>
+                <td><span class="glyphicon glyphicon-wrench" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.inner_ip }}</label></td>
                 <td><span class="glyphicon glyphicon-remove"></span></td>
             </tr>
         {% endfor %}
     </table>
-    <!--<a href="/app/get_add_group_page" class="btn">Add HostGroup</a>-->
+    <span class="glyphicon glyphicon-refresh btn"></span>
 </div>
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/host_list.js"></script>

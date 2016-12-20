@@ -114,32 +114,46 @@ def modify_group_remark(request):
 
 
 ### host_list ###
-def sync_host():
+def sync_host(request):
     accepet_keys = sapi.list_all_key()
-    print accepet_keys[0]
     for ac_key in accepet_keys[0]:
         content = sapi.remote_noarg_execution(ac_key, 'grains.items')
-        host = HostList.objects.filter(hostname=ac_key, ip=content['ip_interfaces']['eth1'])
+        if len(content['ip_interfaces']) == 3:
+            ip = content['ip_interfaces']['eth1'][0]
+        else:
+            ip = "N/A"
+        print ip
+        host = HostList.objects.filter(hostname=ac_key, ip=ip)
         if not host:
-            pass
-            # hostlist = HostList()
-            # hostlist["ip"] = content['ip_interfaces']['eth1']
-            # hostlist["hostname"] = ac_key
-            # hostlist["nick_name"] = ac_key
-            # hostlist["idc_name"] = ac_key
-            # hostlist["group_name"] = ac_key
-            #
-            # ip = models.GenericIPAddressField(unique=True, verbose_name=u'IP地址')
-            # hostname = models.CharField(max_length=30, verbose_name=u'主机名')
-            # group_name = models.CharField(max_length=50, null=True, unique=True, verbose_name=u'组名')
-            # nick_name = models.CharField(max_length=30, null=True, verbose_name=u'主机别名')
-            # idc_name
-        print content['id']
-        print content['ip_interfaces']
+            hostlist = HostList()
+            hostlist.ip = ip
+            hostlist.hostname = ac_key
+            hostlist.nick_name = ac_key
+
+            print sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'echo $idc,$group'})
+            hostlist.idc_name = ac_key
+            hostlist.group_name = ac_key
+            hostlist.inner_ip = content['ip_interfaces']['eth0'][0]
+    host_list = HostList.objects.all().order_by("idc_name", "group_name")
+    print  dict(host_list)
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    rjson = json.dumps(dict(host_list))
+    response.write(rjson)
+    return response
+
+def modify_ip(request):
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    id = request.POST.get("id")
+    ip = request.POST.get("ip")
+    result = c.execute("update app_hostlist ah set ip=%s where id=%s", [ip, id])
+    rjson = json.dumps({"result": result})
+    response.write(rjson)
+    return response
+
 
 def host_list(request):
-    sync_host()
-
     host_list = HostList.objects.all().order_by("idc_name", "group_name")
     return render_to_response("app/host_list.html", {"host_list": host_list})
 
