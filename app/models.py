@@ -33,15 +33,16 @@ class Group(models.Model):
 
 
 class HostList(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name=u'主机Id')
     ip = models.GenericIPAddressField(unique=True, verbose_name=u'IP地址')
     hostname = models.CharField(max_length=30, verbose_name=u'主机名')
-    group_name = models.CharField(max_length=50, null=True, unique=True, verbose_name=u'组名')
+    group_name = models.CharField(max_length=50, null=True, verbose_name=u'组名')
     nick_name = models.CharField(max_length=30, null=True, verbose_name=u'主机别名')
     idc_name = models.CharField(max_length=40, null=True, blank=True, verbose_name=u'所属机房')
     inner_ip = models.CharField(max_length=20, null=True, verbose_name=u'内网IP地址')
 
     def __unicode__(self):
-        return {"ip": self.ip, "hostname": self.hostname, "group_name": self.group_name, "nick_name": self.nick_name, "idc_name": self.idc_name, 'inner_ip': self.inner_ip}
+        return {"id": self.id, "ip": self.ip, "hostname": self.hostname, "group_name": self.group_name, "nick_name": self.nick_name, "idc_name": self.idc_name, 'inner_ip': self.inner_ip}
 
     class Meta:
         verbose_name = u'主机列表'

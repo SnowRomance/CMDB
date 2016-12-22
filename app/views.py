@@ -130,15 +130,19 @@ def sync_host(request):
             hostlist.hostname = ac_key
             hostlist.nick_name = ac_key
 
-            print sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'echo $idc,$group'})
-            hostlist.idc_name = ac_key
-            hostlist.group_name = ac_key
+            hostlist.idc_name = sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'cat /tmp/cmdb.txt | grep "idc"'})[0][ac_key].split("=")[1]
+            hostlist.group_name = sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'cat /tmp/cmdb.txt | grep "group"'})[0][ac_key].split("=")[1]
             hostlist.inner_ip = content['ip_interfaces']['eth0'][0]
+            hostlist.save()
     host_list = HostList.objects.all().order_by("idc_name", "group_name")
-    print  dict(host_list)
     response = HttpResponse()
+    host_list_dict = {}
+    inum = 0
+    for host in host_list:
+        host_list_dict[str(inum)] = host.__unicode__()
+        inum += 1
     response['Content-Type'] = "text/javascript"
-    rjson = json.dumps(dict(host_list))
+    rjson = json.dumps(host_list_dict)
     response.write(rjson)
     return response
 
@@ -169,4 +173,10 @@ def add_host(request):
     install_string = "yum install epel-release -y;yum install salt-minion -y;sed -i 's/#master: salt/master: $1/g' /etc/salt/minion;service salt-minion start;"
 
 
+#### approval ####
+def approval_request(request):
+    pass
+
+def approval_accept(request):
+    request.POST.get("")
 

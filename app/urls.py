@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^host_list/$', views.host_list),
     url(r'^get_add_host_page/$', views.get_add_host_page),
     url(r'^add_host/$', views.add_host),
-
     url(r'^sync_host/$', views.sync_host),
+
+    url(r'^approval_request/$', views.approval_request),
+    url(r'^approval_accept/$', views.approval_accept),
 ]

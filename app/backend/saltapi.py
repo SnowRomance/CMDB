@@ -139,8 +139,9 @@ def main():
     accepet_keys = sapi.list_all_key()
     print accepet_keys[0]
     for ac_key in accepet_keys[0]:
-        content = sapi.remote_noarg_execution(ac_key, 'grains.items')
-        print sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'echo $PATH'})
+        # content = sapi.remote_noarg_execution(ac_key, 'grains.items')
+        result = sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'cat /tmp/cmdb.txt | grep "idc"'})
+        print result[0][ac_key].split("=")[1]
         # print content['id']
         # print content['ip_interfaces']
 
