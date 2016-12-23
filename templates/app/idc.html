@@ -1,54 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Manager</title>
-    <link rel="stylesheet" href="/static/libs/bootstrap/3.0/css/bootstrap.min.css" />
+{% extends 'base/base.html' %}
+
+{% block title %}Cluster{% endblock %}
+
+{% block css %}
     <link rel="stylesheet" href="/static/css/app/idc.css"/>
-</head>
-<body>
-<div id="top">
-    <label>配置管理数据库平台</label>
-</div>
+{% endblock %}
 
-<div id="left">
-    <ul id="menu">
-        <li>
-            <a href="/app/index"><i class="glyphicon glyphicon-home lab_tab">&nbsp;控制台</i></a>
-        </li>
-        <li>
-            <a href="/app/idc"><i class="glyphicon glyphicon-tasks lab_tab">&nbsp;集群管理</i></a>
-        </li>
-        <li>
-            <a href="/app/group"><i class="glyphicon glyphicon-tasks lab_tab">&nbsp;主机组管理</i></a>
-        </li>
-        <li>
-            <a href="/app/host_list"><i class="glyphicon glyphicon-tasks lab_tab">&nbsp;主机管理</i></a>
-        </li>
-        <li>
-            <a href="/app/get_add_host_page"><i class="glyphicon glyphicon-tasks lab_tab">&nbsp;主机采集</i></a>
-        </li>
-        <li>
-            <a href="/app/approval_request"><i class="glyphicon glyphicon-list-alt lab_tab">&nbsp;审批请求</i></a>
-        </li>
-        <li>
-            <a href="/app/approval_accept"><i class="glyphicon glyphicon-list-alt lab_tab">&nbsp;审批处理</i></a>
-        </li>
-        <li>
-            <a href="/app/file"><i class="glyphicon glyphicon-file lab_tab">&nbsp;文件推送</i></a>
-        </li>
-        <li>
-            <a href="/app/command"><i class="glyphicon glyphicon-random lab_tab">&nbsp;单台命令</i></a>
-        </li>
-        <li>
-            <a href="/app/command_group"><i class="glyphicon glyphicon-retweet lab_tab">&nbsp;批量命令</i></a>
-        </li>
-        <li>
-            <a href="/app/job"><i class="glyphicon glyphicon-sort-by-attributes lab_tab">&nbsp;任务流程</i></a>
-        </li>
-    </ul>
-</div>
-
-<div id="right">
+{% block content %}
     <table class="hovertable">
         <tr>
             <th>集群名称</th>
@@ -70,9 +28,8 @@
         {% endfor %}
     </table>
     <a href="/app/get_add_idc_page" class="btn">Add Idc</a>
-</div>
+{% endblock %}
 
-</body>
-<script src="/static/js/jquery.min.js"></script>
+{% block script %}
 <script src="/static/js/idc.js"></script>
-</html>
+{% endblock %}

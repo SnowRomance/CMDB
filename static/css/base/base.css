@@ -1,0 +1,13 @@
+body {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 auto;
+	font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#right {
+    margin-top: 15px;
+    width: 90%;
+    margin-left: 5%;
+    border: 1px solid red;
+}

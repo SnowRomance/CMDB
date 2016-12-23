@@ -174,8 +174,11 @@ def add_host(request):
 
 
 #### approval ####
+def get_idc(request):
+    group_
+
 def approval_request(request):
-    pass
+    return render_to_response("app/approval_request.html", {})
 
 def approval_accept(request):
     request.POST.get("")
