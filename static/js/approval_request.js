@@ -1,21 +1,25 @@
 $(function(){
    $(".idc").on("change", function(){
+        idc_name = $(".idc").val()
         $.ajax({
             type:"POST",
-            url:"/app/sync_host/",
+            url:"/app/change_idc/",
+            data: {"idc_name": idc_name},
             dataType:"json",
             success:function(data){
-                $(".hovertable").html()
-                _add_html = "<tr><th>集群名称</th><th>主机组</th><th>主机名称</th><th>公网IP</th><th>私网IP</th><th>操作</th></tr>"
-
-                for (var key in data) {
-                    _add_html = _add_html + "<tr onmouseover=\"this.style.backgroundColor='#ffff66';\" onmouseout=\"this.style.backgroundColor='#d4e3e5';\"><td>"+data[key]['idc_name']+"</td>"
-                    +"<td>"+data[key]['group_name']+"</td><td><span class=\"glyphicon glyphicon-wrench\" data-hostid=\""+data[key]['id']+"\"></span>&nbsp;<label>"+data[key]['hostname']+"</label></td>"
-                    +"<td><span class=\"glyphicon glyphicon-wrench\" data-hostid=\""+data[key]['id']+"\"></span>&nbsp;<label>"+data[key]['ip']+"</label></td>"
-                    +"<td><span class=\"glyphicon glyphicon-wrench\" data-hostid=\""+data[key]['id']+"\"></span>&nbsp;<label>"+data[key]['inner_ip']+"</label></td>"
-                    +"<td><span class=\"glyphicon glyphicon-remove\"></span></td></tr>"
+                $(".group").html()
+                _add_html = ""
+                for (var key in data["group_list_dict"]) {
+                    _add_html = _add_html + "<option>" +data["group_list_dict"][key]["group_name"]+ "</option>"
                 }
-                $(".hovertable").html(_add_html)
+                $(".group").html(_add_html)
+
+                $(".host").html()
+                _add_html = ""
+                for (var key in data["host_list_dict"]) {
+                    _add_html = _add_html + "<option data-hostname=\""+ data["host_list_dict"][key]["hostname"] +"\">" +data["host_list_dict"][key]["nick_name"]+ "</option>"
+                }
+                $(".host").html(_add_html)
             },
             error:function(data){
                 console.log('error');
@@ -23,10 +27,25 @@ $(function(){
         });
    });
    $(".group").on("change", function(){
-
+        group_name = $(".group").val()
+        $.ajax({
+            type:"POST",
+            url:"/app/change_group/",
+            data: {"group_name": group_name},
+            dataType:"json",
+            success:function(data){
+                $(".host").html()
+                _add_html = ""
+                for (var key in data) {
+                    _add_html = _add_html + "<option data-hostname=\""+ data[key]["id"] +"\">" +data[key]["nick_name"]+ "</option>"
+                }
+                $(".host").html(_add_html)
+            },
+            error:function(data){
+                console.log('error');
+            }
+        });
    });
-   $(".host").on("change", function(){
 
-   });
 
 });

@@ -174,11 +174,60 @@ def add_host(request):
 
 
 #### approval ####
-def get_idc(request):
-    group_
+def change_idc(request):
+    idc_name = request.POST.get("idc_name")
+    group_list = Group.objects.filter(idc_name=idc_name)
+    group_list_dict = {}
+    inum = 0
+    for group in group_list:
+        print group.group_name
+        group_list_dict[str(inum)] = group.__unicode__()
+        inum += 1
+
+    group_name = ""
+    if len(group_list) != 0:
+        group_name  = group_list[0].group_name
+    host_list = HostList.objects.filter(group_name=group_name)
+    host_list_dict = {}
+    inum = 0
+    for host in host_list:
+        host_list_dict[str(inum)] = host.__unicode__()
+        inum += 1
+
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    rjson = json.dumps({"group_list_dict": group_list_dict, "host_list_dict": host_list_dict})
+    response.write(rjson)
+    return response
+
+
+def change_group(request):
+    group_name = request.POST.get("group_name")
+    host_list = HostList.objects.filter(group_name=group_name)
+    host_list_dict = {}
+    inum = 0
+    for host in host_list:
+        host_list_dict[str(inum)] = host.__unicode__()
+        inum += 1
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    rjson = json.dumps(host_list_dict)
+    response.write(rjson)
+    return response
+
+
+def get_approval_request(request):
+    idc_list = Idc.objects.all()
+    idc_name = idc_list[0].idc_name
+    group_list = Group.objects.filter(idc_name=idc_name)
+    group_name = group_list[0].group_name
+    host_list = HostList.objects.filter(group_name=group_name, idc_name=idc_name)
+    return render_to_response("app/approval_request.html", {"idc_list": idc_list, "group_list": group_list, "host_list": host_list})
+
 
 def approval_request(request):
-    return render_to_response("app/approval_request.html", {})
+    pass
+
 
 def approval_accept(request):
     request.POST.get("")

@@ -8,29 +8,24 @@
 
 {% block content %}
     <div id="select_div">
-
+        <select class="idc">
+            {% for idc in idc_list %}
+                <option>{{ idc.idc_name }}</option>
+            {% endfor %}
+        </select>
+        <select class="group">
+            {% for group in group_list %}
+                <option>{{ group.group_name }}</option>
+            {% endfor %}
+        </select>
     </div>
-    <table class="hovertable">
-        <tr>
-            <th>集群名称</th>
-            <th>主机组数量</th>
-            <th>主机数量</th>
-            <th>创建时间</th>
-            <th>备注</th>
-            <th>操作</th>
-        </tr>
-        {% for idc in idc_list %}
-            <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-                <td>{{idc.idc_name}}</td>
-                <td>{% if idc.groups == 0 %}0{% else %} {{idc.groups}} {% endif %}</td>
-                <td>{% if idc.hosts == 0 %}0{% else %} {{idc.hosts}} {% endif %}</td>
-                <td>{{idc.create_time}}</td>
-                <td><span class="glyphicon glyphicon-wrench" data-idcid="{{ idc.id }}"></span>&nbsp;<label>{{idc.remark}}</label></td>
-                <td><span class="glyphicon glyphicon-remove"></span></td>
-            </tr>
+    <ul class="hostlist_box">
+        {% for host in host_list %}
+            <li data-hostname="{{ host.hostname }}">{{ host.nick_name }}</li>
         {% endfor %}
-    </table>
-    <a href="/app/get_add_idc_page" class="btn">Add Idc</a>
+    </ul>
+    <textarea class="hostlist_box"></textarea>
+    <a href="/app/request" class="btn">Add Idc</a>
 {% endblock %}
 
 {% block script %}
