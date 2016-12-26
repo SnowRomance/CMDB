@@ -8,12 +8,12 @@ from django.http import HttpResponseRedirect
 
 def inbox(request):
     inbox_list = Email.objects.filter(to_user=request.user)
-    return render_to_response("app/inbox.html", {"inbox_list": inbox_list})
+    return render_to_response("order/inbox.html", {"inbox_list": inbox_list})
 
 
 def outbox(request):
     outbox_list = Email.objects.filter(from_user=request.user)
-    return render_to_response("app/outbox.html", {"outbox_list": outbox_list})
+    return render_to_response("order/outbox.html", {"outbox_list": outbox_list})
 
 
 def send(request):
@@ -26,4 +26,4 @@ def send(request):
     email.content = content
     email.deal = 0
     email.save()
-    return HttpResponseRedirect("app/outbox")
+    return HttpResponseRedirect("order/outbox")

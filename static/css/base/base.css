@@ -11,3 +11,8 @@ body {
     margin-left: 5%;
     border: 1px solid red;
 }
+ul,li{
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
