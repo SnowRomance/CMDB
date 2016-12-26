@@ -19,13 +19,18 @@
             {% endfor %}
         </select>
     </div>
-    <ul class="hostlist_box">
+    <div class="hostlist_box_left">
         {% for host in host_list %}
-            <li data-hostname="{{ host.hostname }}">{{ host.nick_name }}</li>
+            <span data-hostname="{{ host.hostname }}">{{ host.nick_name }}</span>
         {% endfor %}
-    </ul>
-    <textarea class="hostlist_box"></textarea>
-    <a href="/app/request" class="btn">Add Idc</a>
+    </div>
+    <div id="delete_option">
+        <i>>></i>
+        <i><<</i>
+    </div>
+    <div class="hostlist_box_right">
+    </div>
+    <a href="/app/approval_request" class="btn">Apply</a>
 {% endblock %}
 
 {% block script %}

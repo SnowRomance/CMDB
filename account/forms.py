@@ -28,3 +28,25 @@ class RegisterForm(forms.Form):
         if len(phone) != 11:
             raise forms.ValidationError("手机号码需要 11 位！")
         return phone
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(required=True, label='用户名：', max_length=30, help_text="请输入用户名",
+                               error_messages={'required': u'用户名不能为空'})
+    password = forms.CharField(required=True, label='密码：', widget=forms.PasswordInput(), help_text="请输入密码",
+                                error_messages={'required': u'密码不能为空'})
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        filterResult = User.objects.filter(username=username)
+        if len(filterResult) == 0:
+            raise forms.ValidationError("用户名不存在！")
+        return username
+
+    def clean_password(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        filterResult = User.objects.filter(username=username, password=password)
+        if filterResult == "":
+            raise forms.ValidationError("用户名跟密码不一致!")
+        return password

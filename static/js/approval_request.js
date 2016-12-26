@@ -1,5 +1,5 @@
 $(function(){
-   $(".idc").on("change", function(){
+    $(".idc").on("change", function(){
         idc_name = $(".idc").val()
         $.ajax({
             type:"POST",
@@ -25,8 +25,8 @@ $(function(){
                 console.log('error');
             }
         });
-   });
-   $(".group").on("change", function(){
+    });
+    $(".group").on("change", function(){
         group_name = $(".group").val()
         $.ajax({
             type:"POST",
@@ -45,7 +45,30 @@ $(function(){
                 console.log('error');
             }
         });
-   });
+    });
+    $('#right').on('click', 'span', function(){
+        _this = $(this)
+        if(_this.attr("data-select") == undefined){
+            _this.css("background-color", "#00FFFF")
+            _this.attr("data-select", "selected")
+        }else {
+            _this.css("background-color", "white")
+            _this.removeAttr("data-select")
+        }
+    });
+    $('#delete_option').find("i").eq(0).on('click', function(){
+        $('#right span').each(function(){
+            if($(this).attr("data-select") != undefined){
+                _add_html = ""
+                _add_html = _add_html + $(".hostlist_box_right").html()
+                console.log(_add_html)
+                _add_html = _add_html + $(this).innerHTML
+                console.log(_add_html.innerHTML)
+                $(this).remove()
+            }
+        })
+    });
+    $('#delete_option').find("i").eq(1).on('click', function(){
 
-
+    });
 });

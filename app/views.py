@@ -226,7 +226,7 @@ def get_approval_request(request):
 
 
 def approval_request(request):
-    pass
+    hostname = request.POST.get("hostname")
 
 
 def approval_accept(request):

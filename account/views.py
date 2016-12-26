@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponseRedirect
 import time
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 from models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -120,3 +120,29 @@ def userRegister(request):
         return render_to_response("account/userregister.html",
                                   {'registerForm': registerForm, 'curtime': curtime, 'username': username,
                                    'email': email, 'errors': errors})
+
+
+def login(request):
+    errors = []
+    username =""
+    password =""
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        loginForm = LoginForm({'username': username, 'password': password})
+        try:
+            if not loginForm.is_valid():
+                return render_to_response("account/login.html",
+                                          {'loginForm': loginForm, 'username': username, 'password': password,
+                                           'errors': errors})
+
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+                return HttpResponseRedirect("/app/index/")
+        except Exception, e:
+            errors.append(str(e))
+            return render_to_response("account/login.html", {'loginForm': loginForm, 'username': username, 'password': password, 'errors': errors})
+    else:
+        loginForm = LoginForm()
+        return render_to_response("account/login.html", {'loginForm': loginForm, 'username': username, 'password': password, 'errors': errors})

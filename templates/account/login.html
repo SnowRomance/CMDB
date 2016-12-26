@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Account</title>
+    <link rel="stylesheet" href="/static/libs/bootstrap/3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/account/login.css"/>
+</head>
+<body>
+<form method = 'post' enctype="multipart/form-data">
+
+    <div class="field">
+        {{ loginForm.username.errors }}
+        <label for="id_username">用户名：</label>
+        {{ loginForm.username }}
+    </div>
+    <div class="field">
+        {{ loginForm.password.errors }}
+        <label for="id_password">密码：</label>
+        {{ loginForm.password }}
+    </div>
+    <input type="submit" value = "登录" class="button" />
+</form>
+</body>
+</html>

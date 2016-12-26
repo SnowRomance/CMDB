@@ -22,11 +22,53 @@
     margin-left: 50px;
 }
 
-.hostlist_box {
+.hostlist_box_left {
+    float: left;
     margin-left: 50px;
-    resize: none;
-    width: 300px;
+    list-style: none;
+    border: 2px solid #abadb3;
+    display: block;
+    width: 200px;
     height: 200px;
+    overflow: hidden;
+}
+
+.hostlist_box_right {
+    float: left;
+    margin-left: 50px;
+    list-style: none;
+    border: 2px solid #abadb3;
+    display: block;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+
+#right span {
+    display: block;
+    padding: 3px 0;
+    border-bottom: 1px dashed #CCFFFF;
+}
+
+#right span:hover {
+    background-color: #00FFFF;
+}
+
+#delete_option {
+    float: left;
+    margin-left: 50px;
+    display: block;
+    width: 80px;
+    height: 200px;
+    text-align: center;
+}
+
+#delete_option i {
+    margin-top: 50px;
+    display: block;
+    width: 80px;
+    height: 15px;
+    cursor: pointer;
 }
 
 .btn
