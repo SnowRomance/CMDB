@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponse
 from app.models import *
 import MySQLdb as mysql
 from CMDB.settings_config import dbconfig, saltconfig
 from app.backend.saltapi import SaltAPI
+from django.contrib.auth.models import User
 import json
 import sys
 reload(sys)
@@ -22,7 +23,7 @@ sapi = SaltAPI(url=config_list_sal["salt_url"], username=config_list_sal["salt_u
 
 # Create your views here.
 def index(request):
-    return render_to_response("app/index.html", {})
+    return render_to_response("app/index.html", {'user': request.user})
 
 
 ##### idc ###########
@@ -226,9 +227,21 @@ def get_approval_request(request):
 
 
 def approval_request(request):
-    hostname = request.POST.get("hostname")
+    hostname_list = request.POST.get("hostname")
+    username = request.user
+    filterUser = User.objects.filter(username=username)
+    if filterUser is not None:
+        email = filterUser.email
+        ### 获取 user
+        user = ""
+        user_part = email.split('@')[0]
+        for user_p in user_part.split('.'):
+            user = user + user_p
+
+        for hostname in hostname_list:
+            #### usermod -e 2010-09-28 test
+            pass
 
 
 def approval_accept(request):
     request.POST.get("")
-

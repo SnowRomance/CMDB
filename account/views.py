@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 import time
 from forms import RegisterForm, LoginForm

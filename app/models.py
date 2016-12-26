@@ -110,3 +110,5 @@ class salt_return(models.Model):
     class Meta:
         verbose_name = u'命令返回结果'
         verbose_name_plural = u'命令返回结果'
+
+

@@ -7,8 +7,30 @@
 }
 
 #top label {
-    display: block;
+    display: inline-block;
     padding-left: 30px;
     padding-top: 30px;
     color: #D3D3D3;
+    width: 400px;
+}
+
+#top #user {
+    float: right;
+    text-align: right;
+    margin-right: 30px;
+    margin-top: 20px;
+    display: inline-block;
+    color: white;
+}
+
+#top #user:hover {
+    cursor: pointer;
+}
+
+#top #user span {
+    display: none;
+    color: black;
+    width: 100px;
+    background-color: white;
+    margin-top: 1px;
 }
