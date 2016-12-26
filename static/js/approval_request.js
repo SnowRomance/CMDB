@@ -56,19 +56,22 @@ $(function(){
             _this.removeAttr("data-select")
         }
     });
-    $('#delete_option').find("i").eq(0).on('click', function(){
+    $('#add').on('click', function(){
         $('#right span').each(function(){
             if($(this).attr("data-select") != undefined){
-                _add_html = ""
-                _add_html = _add_html + $(".hostlist_box_right").html()
-                console.log(_add_html)
-                _add_html = _add_html + $(this).innerHTML
-                console.log(_add_html.innerHTML)
+                var _span = $(this).clone();
+                $('.hostlist_box_right').append(_span).find("span").css("background-color", "white").removeAttr("data-select")
                 $(this).remove()
             }
         })
     });
-    $('#delete_option').find("i").eq(1).on('click', function(){
-
+    $('#remove').on('click', function(){
+         $('#right span').each(function(){
+            if($(this).attr("data-select") != undefined){
+                var _span = $(this).clone();
+                $('.hostlist_box_left').append(_span).find("span").css("background-color", "white").removeAttr("data-select")
+                $(this).remove()
+            }
+        })
     });
 });
