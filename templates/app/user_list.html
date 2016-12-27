@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/app/user_list.css"/>
+{% endblock %}
+
+{% block content %}
+    <table class="hovertable">
+        <tr>
+            <th>用户名</th>
+            <th>邮箱</th>
+            <th>电话</th>
+            <th>所属分组(0-普通 1-运维 2-管理员)</th>
+            <th>操作</th>
+        </tr>
+        {% for user in user_list %}
+            <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+                <td>{{ user.user.username }}</td>
+                <td>{{ user.user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td><span class="glyphicon glyphicon-wrench" data-userid="{{ user.id }}"></span>&nbsp;<label>{{ user.permissions }}</label></td>
+                <td><span class="glyphicon glyphicon-remove"></span></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block script %}
+<script src="/static/js/user_list.js"></script>
+{% endblock %}

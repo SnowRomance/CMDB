@@ -23,22 +23,20 @@
 }
 
 .hostlist_box_left {
-    float: left;
     margin-left: 50px;
     list-style: none;
     border: 2px solid #abadb3;
-    display: block;
+    display: inline-block;
     width: 200px;
     height: 200px;
     overflow: hidden;
 }
 
 .hostlist_box_right {
-    float: left;
-    margin-left: 50px;
+    margin-left: 20px;
     list-style: none;
     border: 2px solid #abadb3;
-    display: block;
+    display: inline-block;
     width: 200px;
     height: 200px;
     overflow: hidden;
@@ -55,18 +53,18 @@
 }
 
 #delete_option {
-    float: left;
-    margin-left: 50px;
-    display: block;
-    width: 80px;
-    height: 200px;
+    margin-left: 20px;
+    display: inline-block;
+    width: 50px;
+    height: 80px;
     text-align: center;
+    border: 1px solid red;
 }
 
 #delete_option i {
-    margin-top: 50px;
+    margin-top: 20px;
     display: block;
-    width: 80px;
+    width: 50px;
     height: 15px;
     cursor: pointer;
 }

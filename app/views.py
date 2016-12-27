@@ -1,11 +1,13 @@
 # -*- coding:utf-8 -*-
 from django.shortcuts import render_to_response, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from app.models import *
 import MySQLdb as mysql
 from CMDB.settings_config import dbconfig, saltconfig
 from app.backend.saltapi import SaltAPI
 from django.contrib.auth.models import User
+from order.models import *
+from account.models import *
 import json
 import sys
 reload(sys)
@@ -174,6 +176,23 @@ def add_host(request):
     install_string = "yum install epel-release -y;yum install salt-minion -y;sed -i 's/#master: salt/master: $1/g' /etc/salt/minion;service salt-minion start;"
 
 
+#### user ###
+def user_list(request):
+    user_list = UserProfile.objects.all()
+    return render_to_response("app/user_list.html", {"user_list": user_list})
+
+
+def modify_user_permissions(request):
+    user_id = request.POST.get("user_id")
+    permissions = request.POST.get("permissions")
+    result = UserProfile.objects.filter(id=user_id).update(permissions=permissions)
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    rjson = json.dumps({"result": result})
+    response.write(rjson)
+    return response
+
+
 #### approval ####
 def change_idc(request):
     idc_name = request.POST.get("idc_name")
@@ -217,30 +236,71 @@ def change_group(request):
     return response
 
 
+def get_host_dict(filterhost):
+    host = {}
+
+    host["id"] = filterhost[0]
+    host["ip"] = filterhost[1]
+    host["hostname"] = filterhost[2]
+    host["group_name"] = filterhost[3]
+    host["nick_name"] = filterhost[4]
+    host["idc_name"] = filterhost[5]
+    host["inner_ip"] = filterhost[6]
+
+    return host
+
+
 def get_approval_request(request):
     idc_list = Idc.objects.all()
     idc_name = idc_list[0].idc_name
     group_list = Group.objects.filter(idc_name=idc_name)
     group_name = group_list[0].group_name
-    host_list = HostList.objects.filter(group_name=group_name, idc_name=idc_name)
+    c.execute("select ah.* from app_hostlist ah where ah.hostname not in (select al.hostname from app_lease al) and ah.group_name='" + str(group_name) + "' and ah.idc_name='" + str(idc_name) + "'")
+
+    host_list = []
+    for filterhost in c.fetchall():
+        host = get_host_dict(filterhost)
+        host_list.append(host)
+    print host_list
     return render_to_response("app/approval_request.html", {"idc_list": idc_list, "group_list": group_list, "host_list": host_list})
 
 
+def get_user_dict(filteruser):
+    user = {}
+    user["id"] = filteruser[0]
+    user["password"] = filteruser[1]
+    user["username"] = filteruser[4]
+    user["email"] = filteruser[7]
+    return user
+
+
 def approval_request(request):
-    hostname_list = request.POST.get("hostname")
+    hostname_list = request.POST.get("hostname_list")
+    print hostname_list
     username = request.user
-    filterUser = User.objects.filter(username=username)
-    if filterUser is not None:
-        email = filterUser.email
+    c.execute("select auth_user.* from auth_user where username='"+ str(username) + "'")
+    filteruser = c.fetchone()
+    print filteruser
+    if filteruser is not None:
+        user = get_user_dict(filteruser)
+        email = user["email"]
         ### 获取 user
         user = ""
         user_part = email.split('@')[0]
         for user_p in user_part.split('.'):
             user = user + user_p
 
-        for hostname in hostname_list:
-            #### usermod -e 2010-09-28 test
-            pass
+        #### usermod -e 2010-09-28 test
+        from_user = "admin"
+        to_users_list = UserProfile.objects.filter(permissions=2)
+        for to_user in to_users_list:
+            content = user + "申请访问主机" + hostname_list
+            email = Email()
+            email.from_user = from_user
+            email.to_user = to_user.user.username
+            email.content = content
+            # email.save()
+    return HttpResponseRedirect("/app/get_approval_request/")
 
 
 def approval_accept(request):

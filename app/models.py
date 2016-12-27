@@ -112,3 +112,9 @@ class salt_return(models.Model):
         verbose_name_plural = u'命令返回结果'
 
 
+class Lease(models.Model):
+    username = models.CharField(max_length=50)
+    hostname = models.CharField(max_length=30, unique=True, default="", verbose_name=u'主机名')
+    lease_time = models.IntegerField(default=0)
+
+

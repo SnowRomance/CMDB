@@ -18,6 +18,9 @@ urlpatterns = [
     url(r'^add_host/$', views.add_host),
     url(r'^sync_host/$', views.sync_host),
 
+    url(r'^user_list/$', views.user_list),
+    url(r'^modify_user_permissions/$', views.modify_user_permissions),
+
     url(r'^get_approval_request/$', views.get_approval_request),
     url(r'^change_idc/$', views.change_idc),
     url(r'^change_group/$', views.change_group),

@@ -6,23 +6,23 @@ $(function(){
             _this.addClass("disabled");
             var _parentTd = _this.parent('td');
             var _val = _parentTd.find("label").html() || '';
-            var _inputHtml = '<input type="text" value = "'+_val+'" id="remark"/>'
+            var _inputHtml = '<input type="text" value = "'+_val+'" id="permissions"/>'
             _parentTd.find("label").html(_inputHtml);
         }
     });
-    $(".hovertable").on('keyup','#remark',function(event){
+    $(".hovertable").on('keyup','#permissions',function(event){
         var _this = $(this);
         var _parentTd = _this.parents('td');
-        var idc_id = _parentTd.find("span").attr("data-idcid");
-        var _remark = _this.val();
+        var user_id = _parentTd.find("span").attr("data-userid");
+        var _permissions = _this.val();
         if(event.keyCode == 13) {
             $.ajax({
                 type:"POST",
-                url:"/app/modify_idc_remark/",
+                url:"/app/modify_user_permissions/",
                 dataType:"json",
-                data:{"idc_id":idc_id,"remark":_remark},
+                data:{"user_id":user_id,"permissions":_permissions},
                 success:function(data){
-                    _parentTd.find("label").html(_remark);
+                    _parentTd.find("label").html(_permissions);
                     $('.glyphicon-wrench').removeClass("disabled");
                 },
                 error:function(data){

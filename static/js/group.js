@@ -23,6 +23,7 @@ $(function(){
                 data:{"group_id":group_id,"remark":_remark},
                 success:function(data){
                     _parentTd.find("label").html(_remark);
+                    $('.glyphicon-wrench').removeClass("disabled");
                 },
                 error:function(data){
                     console.log('error');

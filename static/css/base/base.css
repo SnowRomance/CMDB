@@ -2,17 +2,15 @@ body {
     width: 100%;
     margin: 0 auto;
     padding: 0 auto;
-	font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font: 10px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #right {
-    margin-top: 15px;
     width: 90%;
-    margin-left: 5%;
+    margin: 0 auto;
+    margin-top: 15px;
     border: 1px solid red;
 }
 ul,li{
     list-style-type:none;
-    margin:0;
-    padding:0;
 }

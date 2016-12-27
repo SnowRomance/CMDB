@@ -1,17 +1,84 @@
-.email-list{
-    height:200px;
-    background:red;
+.email-list {
+    display: inline-block;
+    height:350px;
     width:200px;
+    border: 1px solid #808080;
+    overflow: auto;
 }
-.email-list li{
+
+.email-list ul {
+}
+
+.email-list li {
+    margin-left: -40px;
+    border-bottom: 1px dashed #808080;
+}
+.email-list label {
 
 }
-.email-list label{
+.email-list .name {
+    width: 100px;
+    display: inline-block;
+    margin-left: 3px;
+    font-size: 8px;
+    color: black;
+}
+.email-list .time {
+    width: 60px;
+    margin-right: 3px;
+    float: right;
+    display: inline-block;
+    color: #808080;
+}
+.email-list .title {
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    color: #808080;
+}
 
+.eamil-content {
+    display: inline-block;
+    margin-left: 20px;
+    width: 700px;
+    height: 350px;
+    border: 1px solid blue;
+    background: #dbe2e8;
 }
-.email-list .name{
+
+.eamil-content span {
+    border: 1px solid red;
+    width: 680px;
+    display: block;
+    margin-left: 5px;
+    font-size: 12px;
+    color: black;
 }
-.email-list .time{
+
+#content {
+    width: 680px;
+    margin-left: 5px;
+    border: 1px solid red;
 }
-.email-list .title{
+
+#content ul li {
+    border-bottom: 1px solid #808080;
+}
+
+#text {
+    width: 680px;
+    margin-left: 5px;
+    border: 1px solid red;
+}
+
+#text textarea {
+    width: 670px;
+    height: 100px;
+    resize: none;
+}
+
+#text input {
+    float: right;
 }

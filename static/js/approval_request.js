@@ -46,6 +46,8 @@ $(function(){
             }
         });
     });
+
+    // 删选
     $('#right').on('click', 'span', function(){
         _this = $(this)
         if(_this.attr("data-select") == undefined){
@@ -60,18 +62,38 @@ $(function(){
         $('#right span').each(function(){
             if($(this).attr("data-select") != undefined){
                 var _span = $(this).clone();
-                $('.hostlist_box_right').append(_span).find("span").css("background-color", "white").removeAttr("data-select")
-                $(this).remove()
+                $('.hostlist_box_right').append(_span).find("span").css("background-color", "white").removeAttr("data-select");
+                $(this).remove();
             }
-        })
+        });
     });
     $('#remove').on('click', function(){
          $('#right span').each(function(){
             if($(this).attr("data-select") != undefined){
                 var _span = $(this).clone();
-                $('.hostlist_box_left').append(_span).find("span").css("background-color", "white").removeAttr("data-select")
-                $(this).remove()
+                $('.hostlist_box_left').append(_span).find("span").css("background-color", "white").removeAttr("data-select");
+                $(this).remove();
             }
-        })
+        });
+    });
+
+    // hostlist_box_right request
+    $(".btn").on("click", function(){
+        var hostname_list = ""
+        $(".hostlist_box_right span").each(function(){
+            hostname_list = hostname_list + $(this).attr("data-hostname") + ","
+        });
+        $.ajax({
+            type:"POST",
+            url:"/app/approval_request/",
+            data: {"hostname_list": hostname_list},
+            dataType:"json",
+            success:function(data){
+                console.log('success');
+            },
+            error:function(data){
+                console.log('error');
+            }
+        });
     });
 });
