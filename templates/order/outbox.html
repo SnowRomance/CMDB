@@ -14,13 +14,13 @@
                     <li>
                         <span class="from_user unread">{{ inbox.from_user }}</span><span class="create_time unread">{{ inbox.create_time }}</span>
                         <span class="title unread">{{ inbox.title }}</span>
-                        <span data-emailid="{{ inbox.id }}" class="content">{{ inbox.content }}</span><span class="to_user">{{ inbox.to_user }}</span>
+                        <span class="content">{{ inbox.content }}</span><span class="to_user">{{ inbox.to_user }}</span>
                     </li>
                 {% else %}
                     <li>
                         <span class="from_user">{{ inbox.from_user }}</span><span class="create_time">{{ inbox.create_time }}</span>
                         <span class="title">{{ inbox.title }}</span>
-                        <span data-emailid="{{ inbox.id }}" class="content">{{ inbox.content }}</span><span class="to_user">{{ inbox.to_user }}</span>
+                        <span class="content">{{ inbox.content }}</span><span class="to_user">{{ inbox.to_user }}</span>
                     </li>
                 {% endif %}
             {% endfor %}

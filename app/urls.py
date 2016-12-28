@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'^get_approval_request/$', views.get_approval_request),
     url(r'^change_idc/$', views.change_idc),
     url(r'^change_group/$', views.change_group),
-    url(r'^approval_request/$', views.approval_request),
+    url(r'^approval_request/.*$', views.approval_request),
     url(r'^approval_accept/$', views.approval_accept),
 ]

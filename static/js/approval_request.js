@@ -83,17 +83,19 @@ $(function(){
         $(".hostlist_box_right span").each(function(){
             hostname_list = hostname_list + $(this).attr("data-hostname") + ","
         });
-        $.ajax({
-            type:"POST",
-            url:"/app/approval_request/",
-            data: {"hostname_list": hostname_list},
-            dataType:"json",
-            success:function(data){
-                console.log('success');
-            },
-            error:function(data){
-                console.log('error');
-            }
-        });
+//        $.ajax({
+//            type:"POST",
+//            url:"/app/approval_request/",
+//            data: {"hostname_list": hostname_list},
+//            dataType:"json",
+//            success:function(data){
+//                console.log('success');
+//            },
+//            error:function(data){
+//                console.log('error');
+//            }
+//        });
+        console.log(hostname_list)
+        location.href = "/app/approval_request/?hostname_list=" + hostname_list
     });
 });

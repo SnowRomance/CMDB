@@ -5,11 +5,10 @@ body {
 	font: 10px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-#right {
+#bottom {
     width: 90%;
     margin: 0 auto;
     margin-top: 15px;
-    border: 1px solid red;
 }
 ul,li{
     list-style-type:none;

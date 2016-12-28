@@ -40,11 +40,11 @@ def idc(request):
         c.execute("Select count(ah.id) from app_hostlist ah where ah.idc_name = %s", [idc["idc_name"]])
         idc["hosts"] = c.fetchone()[0]
         idc_list.append(idc)
-    return render_to_response("app/idc.html", {"idc_list": idc_list})
+    return render_to_response("app/idc.html", {"user": request.user, "idc_list": idc_list})
 
 
 def get_add_idc_page(request):
-    return render_to_response("app/add_idc.html", {})
+    return render_to_response("app/add_idc.html", {"user": request.user})
 
 
 def add_idc(request):
@@ -87,10 +87,11 @@ def group(request):
             group["remark"] = hg[3]
             group["host_count"] = HostList.objects.filter(group_name=hg[1]).count()
             group_list.append(group)
-    return render_to_response("app/group.html", {"group_list": group_list})
+    return render_to_response("app/group.html", {"user": request.user, "group_list": group_list})
 
 
 def get_add_group_page(request):
+    user = request.user
     idc_list = Idc.objects.all()
     return render_to_response("app/add_group.html", locals())
 
@@ -161,8 +162,9 @@ def modify_ip(request):
 
 
 def host_list(request):
+    user = request.user
     host_list = HostList.objects.all().order_by("idc_name", "group_name")
-    return render_to_response("app/host_list.html", {"host_list": host_list})
+    return render_to_response("app/host_list.html", locals())
 
 
 def get_add_host_page(request):
@@ -170,7 +172,7 @@ def get_add_host_page(request):
     for idc in idc_list:
         print idc.salt_ip
     group_list = Group.objects.all()
-    return render_to_response("app/add_host.html", {"idc_list": idc_list, "group_list": group_list})
+    return render_to_response("app/add_host.html", {"user": request.user, "idc_list": idc_list, "group_list": group_list})
 
 def add_host(request):
     install_string = "yum install epel-release -y;yum install salt-minion -y;sed -i 's/#master: salt/master: $1/g' /etc/salt/minion;service salt-minion start;"
@@ -178,8 +180,9 @@ def add_host(request):
 
 #### user ###
 def user_list(request):
+    user = request.user
     user_list = UserProfile.objects.all()
-    return render_to_response("app/user_list.html", {"user_list": user_list})
+    return render_to_response("app/user_list.html", locals())
 
 
 def modify_user_permissions(request):
@@ -261,8 +264,7 @@ def get_approval_request(request):
     for filterhost in c.fetchall():
         host = get_host_dict(filterhost)
         host_list.append(host)
-    print host_list
-    return render_to_response("app/approval_request.html", {"idc_list": idc_list, "group_list": group_list, "host_list": host_list})
+    return render_to_response("app/approval_request.html", {"user": request.user, "idc_list": idc_list, "group_list": group_list, "host_list": host_list})
 
 
 def get_user_dict(filteruser):
@@ -275,12 +277,19 @@ def get_user_dict(filteruser):
 
 
 def approval_request(request):
-    hostname_list = request.POST.get("hostname_list")
-    print hostname_list
+    hostname_list = request.GET.get("hostname_list")
+    ### 去除 hostname_list 字符串最后的 ,
+    hostname_list_split = hostname_list.split(",")
+    hostname_list = ""
+    i = 0
+    for i in range(0, len(hostname_list_split) - 2):
+        hostname_list = hostname_list + hostname_list_split[i] + ","
+    hostname_list = hostname_list + hostname_list_split[i]
+
+    ### 获取 auth_user 的 email
     username = request.user
     c.execute("select auth_user.* from auth_user where username='"+ str(username) + "'")
     filteruser = c.fetchone()
-    print filteruser
     if filteruser is not None:
         user = get_user_dict(filteruser)
         email = user["email"]
@@ -291,15 +300,28 @@ def approval_request(request):
             user = user + user_p
 
         #### usermod -e 2010-09-28 test
+        #### 发送邮件
         from_user = "admin"
         to_users_list = UserProfile.objects.filter(permissions=2)
+        print to_users_list
         for to_user in to_users_list:
+            print to_user
             content = user + "申请访问主机" + hostname_list
             email = Email()
             email.from_user = from_user
             email.to_user = to_user.user.username
+            email.title = "主机申请"
             email.content = content
-            # email.save()
+            email.save()
+
+
+        ### 插入申请请求
+        for i in range(0, len(hostname_list_split)-1):
+            host_request = HostRequest()
+            host_request.hostname = hostname_list_split[i]
+            host_request.username = username
+            host_request.save()
+
     return HttpResponseRedirect("/app/get_approval_request/")
 
 

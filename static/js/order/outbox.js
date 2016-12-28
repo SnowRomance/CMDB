@@ -14,24 +14,5 @@ $(function(){
         $(".email_head .create_time").html(_create_time);
         $(".email_content").html(_content);
         $(".email_from_user").html(_from_user);
-
-        _this.find(".from_user").removeClass("unread")
-        _this.find(".create_time").removeClass("unread")
-        _this.find(".title").removeClass("unread")
-
-        id = _this.find(".content").attr("data-emailid")
-        console.log(id)
-        $.ajax({
-            type:"POST",
-            url:"/order/change_status/",
-            data: {"id": id},
-            dataType:"json",
-            success:function(data){
-                console.log("success");
-            },
-            error:function(data){
-                console.log('error');
-            }
-        });
     });
 });
