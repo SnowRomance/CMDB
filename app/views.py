@@ -306,6 +306,12 @@ def approval_request(request):
             email.title = "主机申请"
             email.content = content
             email.save()
+            print email.id
+
+            user_mail = UserMail()
+            user_mail.email_id = email.id
+            user_mail.username = to_user.user.username
+            user_mail.save()
 
 
         ### 插入申请请求

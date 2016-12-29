@@ -10,19 +10,11 @@
     <div class="email-list">
         <ul>
             {% for outbox in outbox_list %}
-                {% if outbox.status == 0 %}
-                    <li>
-                        <span class="from_user unread">{{ outbox.from_user }}</span><span class="create_time unread">{{ outbox.create_time }}</span>
-                        <span class="title unread">{{ outbox.title }}</span>
-                        <span class="content">{{ outbox.content | safe}}</span><span class="to_user">{{ outbox.to_user }}</span>
-                    </li>
-                {% else %}
-                    <li>
-                        <span class="from_user">{{ outbox.from_user }}</span><span class="create_time">{{ outbox.create_time }}</span>
-                        <span class="title">{{ outbox.title }}</span>
-                        <span class="content">{{ outbox.content | safe}}</span><span class="to_user">{{ outbox.to_user }}</span>
-                    </li>
-                {% endif %}
+                <li>
+                    <span class="from_user">{{ outbox.from_user }}</span><span class="create_time">{{ outbox.create_time }}</span>
+                    <span class="title">{{ outbox.title }}</span>
+                    <span class="content">{{ outbox.content | safe}}</span><span class="to_user">{{ outbox.to_user }}</span>
+                </li>
             {% endfor %}
         </ul>
     </div>
