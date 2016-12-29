@@ -3,24 +3,24 @@
 {% block title %}Add_Group{% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="/static/css/order/inbox.css"/>
+    <link rel="stylesheet" href="/static/css/order/outbox.css"/>
 {% endblock %}
 
 {% block content %}
     <div class="email-list">
         <ul>
-            {% for inbox in inbox_list %}
-                {% if inbox.status == 0 %}
+            {% for outbox in outbox_list %}
+                {% if outbox.status == 0 %}
                     <li>
-                        <span class="from_user unread">{{ inbox.from_user }}</span><span class="create_time unread">{{ inbox.create_time }}</span>
-                        <span class="title unread">{{ inbox.title }}</span>
-                        <span class="content">{{ inbox.content }}</span><span class="to_user">{{ inbox.to_user }}</span>
+                        <span class="from_user unread">{{ outbox.from_user }}</span><span class="create_time unread">{{ outbox.create_time }}</span>
+                        <span class="title unread">{{ outbox.title }}</span>
+                        <span class="content">{{ outbox.content }}</span><span class="to_user">{{ outbox.to_user }}</span>
                     </li>
                 {% else %}
                     <li>
-                        <span class="from_user">{{ inbox.from_user }}</span><span class="create_time">{{ inbox.create_time }}</span>
-                        <span class="title">{{ inbox.title }}</span>
-                        <span class="content">{{ inbox.content }}</span><span class="to_user">{{ inbox.to_user }}</span>
+                        <span class="from_user">{{ outbox.from_user }}</span><span class="create_time">{{ outbox.create_time }}</span>
+                        <span class="title">{{ outbox.title }}</span>
+                        <span class="content">{{ outbox.content }}</span><span class="to_user">{{ outbox.to_user }}</span>
                     </li>
                 {% endif %}
             {% endfor %}
@@ -35,15 +35,9 @@
         </div>
         <span class="email_content"></span>
         <span class="email_from_user"></span>
-        <div id="text">
-            <textarea>
-
-            </textarea>
-            <input type="button" value="回复" class="reply">
-        </div>
     </div>
 {% endblock %}
 
 {% block script %}
-<script src="/static/js/order/inbox.js"></script>
+<script src="/static/js/order/outbox.js"></script>
 {% endblock %}

@@ -15,12 +15,12 @@ $(function(){
         $(".email_content").html(_content);
         $(".email_from_user").html(_from_user);
 
-        _this.find(".from_user").removeClass("unread")
-        _this.find(".create_time").removeClass("unread")
-        _this.find(".title").removeClass("unread")
+        _this.find(".from_user").removeClass("unread");
+        _this.find(".create_time").removeClass("unread");
+        _this.find(".title").removeClass("unread");
+        $(".reply").css("display","block");
 
-        id = _this.find(".content").attr("data-emailid")
-        console.log(id)
+        id = _this.find(".content").attr("data-emailid");
         $.ajax({
             type:"POST",
             url:"/order/change_status/",
@@ -33,5 +33,15 @@ $(function(){
                 console.log('error');
             }
         });
+    });
+
+    $(".reply").on("click", function(){
+        var _email_title = $(".email_title").html()
+        var _email_content = $(".email_content").html()
+        var _email_from_user = $(".email_from_user").html()
+        var _create_time = $(".create_time").html()
+
+        location.href = "/order/get_send_page?email_title=" + _email_title + "&email_content=" + _email_content
+        + "&email_from_user=" + _email_from_user + "&create_time=" + _create_time
     });
 });

@@ -3,10 +3,13 @@ from order.models import *
 from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
+import HTMLParser
+import cgi
 import json
 
 # Create your views here.
 
+html_parser = HTMLParser.HTMLParser()
 
 def inbox(request):
     user = request.user
@@ -32,17 +35,24 @@ def change_status(request):
 
 def get_send_page(request):
     user = request.user
+    email_title = request.GET.get("email_title")
+    email_content = request.GET.get("email_content")
+    email_from_user = request.GET.get("email_from_user")
+    create_time = request.GET.get("create_time")
     return render_to_response("order/send.html", locals())
 
 
 def send(request):
     from_user = request.user
     to_user = request.POST.get("to_user")
-    content = request.POST.get("from_user")
+    title = request.POST.get("title")
+    content = request.POST.get("content")
+    print content
     email = Email()
     email.from_user = from_user
     email.to_user = to_user
+    email.title = title
     email.content = content
     email.deal = 0
     email.save()
-    return HttpResponseRedirect("order/outbox")
+    return HttpResponseRedirect("/order/outbox")
