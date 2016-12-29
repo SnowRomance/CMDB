@@ -34,7 +34,6 @@ def idc(request):
     idc_object_list = Idc.objects.all()
     for i in idc_object_list:
         idc = i.__unicode__()
-        print idc["idc_name"]
         c.execute("Select count(ag.id) from app_group ag where ag.idc_name = %s", [idc["idc_name"]])
         idc["groups"] = c.fetchone()[0]
         c.execute("Select count(ah.id) from app_hostlist ah where ah.idc_name = %s", [idc["idc_name"]])
@@ -126,7 +125,6 @@ def sync_host(request):
             ip = content['ip_interfaces']['eth1'][0]
         else:
             ip = "N/A"
-        print ip
         host = HostList.objects.filter(hostname=ac_key, ip=ip)
         if not host:
             hostlist = HostList()
@@ -169,8 +167,6 @@ def host_list(request):
 
 def get_add_host_page(request):
     idc_list = Idc.objects.all()
-    for idc in idc_list:
-        print idc.salt_ip
     group_list = Group.objects.all()
     return render_to_response("app/add_host.html", {"user": request.user, "idc_list": idc_list, "group_list": group_list})
 
@@ -203,7 +199,6 @@ def change_idc(request):
     group_list_dict = {}
     inum = 0
     for group in group_list:
-        print group.group_name
         group_list_dict[str(inum)] = group.__unicode__()
         inum += 1
 
@@ -303,9 +298,7 @@ def approval_request(request):
         #### 发送邮件
         from_user = "admin"
         to_users_list = UserProfile.objects.filter(permissions=2)
-        print to_users_list
         for to_user in to_users_list:
-            print to_user
             content = user + "申请访问主机" + hostname_list
             email = Email()
             email.from_user = from_user
