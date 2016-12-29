@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import ConfigParser
 cf = ConfigParser.ConfigParser()
-cf.read("E://Py_Work/CMDB/app/backend/config.ini")
+cf.read("D://PycharmProjects/CMDB/app/backend/config.ini")
 def dbconfig():
     db_host = cf.get("db","db_host")
     db_port = cf.get("db","db_port")

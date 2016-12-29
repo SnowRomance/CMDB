@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <table class="hovertable">
+    <table class="table-default table-group">
         <tr>
             <th>集群名称</th>
             <th>主机组名称</th>
@@ -16,7 +16,7 @@
             <th>操作</th>
         </tr>
         {% for group in group_list %}
-            <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+            <tr>
                 <td>{{ group.idc_remark }}</td>
                 <td>{{ group.group_name }}</td>
                 <td><span class="glyphicon glyphicon-wrench" data-groupid="{{ group.group_id }}"></span>&nbsp;<label>{{ group.remark }}</label></td>
@@ -25,7 +25,7 @@
             </tr>
         {% endfor %}
     </table>
-    <a href="/app/get_add_group_page" class="btn">Add HostGroup</a>
+    <a href="/app/get_add_group_page" class="btn-default btn-radius">Add HostGroup</a>
 {% endblock %}
 
 {% block script %}

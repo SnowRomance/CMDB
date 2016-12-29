@@ -19,18 +19,24 @@
             {% endfor %}
         </select>
     </div>
-    <div class="hostlist_box_left">
+    <div class="hostlist_box hostlist_box_left">
         {% for host in host_list %}
-            <span data-hostname="{{ host.hostname }}">{{ host.nick_name }}</span>
+            <span class="nick-name" data-hostname="{{ host.hostname }}">{{ host.nick_name }}</span>
+        <span class="nick-name" data-hostname="{{ host.hostname }}">{{ host.nick_name }}</span>
+        <span class="nick-name" data-hostname="{{ host.hostname }}">{{ host.nick_name }}</span>
+        <span class="nick-name" data-hostname="{{ host.hostname }}">{{ host.nick_name }}</span>
+        <span class="nick-name" data-hostname="{{ host.hostname }}">{{ host.nick_name }}</span>
+        <span class="nick-name" data-hostname="{{ host.hostname }}">{{ host.nick_name }}</span>
+
         {% endfor %}
     </div>
     <div id="delete_option">
-        <i id="add">>></i>
-        <i id="remove"><<</i>
+        <span class="opt btn-radius" id="add">>></span>
+        <span class="opt btn-radius" id="remove"> << </span>
     </div>
-    <div class="hostlist_box_right">
+    <div class="hostlist_box hostlist_box_right">
     </div>
-    <input class="btn" value="Apply" />
+    <input class="btn-default btn-radius" value="Apply" />
 {% endblock %}
 
 {% block script %}

@@ -10,14 +10,14 @@
 </head>
 <body>
 {% include 'base/top.html' %}
-{% include 'base/menu.html' %}
 
-
-<div id="bottom">
+<div id="content">
+    {% include 'base/menu.html' %}
 {% block content %}{% endblock %}
 </div>
 </body>
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/top.js"></script>
+<script src="/static/js/menu.js"></script>
 {% block script %}{% endblock %}
 </html>

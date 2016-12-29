@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <table class="hovertable">
+    <table class="table-default table-host">
         <tr>
             <th>集群名称</th>
             <th>主机组</th>
@@ -17,7 +17,7 @@
             <th>操作</th>
         </tr>
         {% for host in host_list %}
-            <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+            <tr>
                 <td>{{ host.idc_name }}</td>
                 <td>{{ host.group_name }}</td>
                 <td><span class="glyphicon glyphicon-wrench" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.hostname }}</label></td>

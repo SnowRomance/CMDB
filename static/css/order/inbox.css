@@ -63,8 +63,9 @@
     padding: 15px;
     width: 70%;
     height: 650px;
-    background: #dbe2e8 url("/static/image/bj.jpg") no-repeat;
-    background-size: 100%;
+    /*background: #dbe2e8 url("/static/image/bj.jpg") no-repeat;
+    background-size: 100%;*/
+    background-color: #dbe2e8;
 }
 
 .email-content .email_title {

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <table class="hovertable">
+    <table class="table-default table-user">
         <tr>
             <th>用户名</th>
             <th>邮箱</th>
@@ -16,7 +16,7 @@
             <th>操作</th>
         </tr>
         {% for user in user_list %}
-            <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+            <tr>
                 <td>{{ user.user.username }}</td>
                 <td>{{ user.user.email }}</td>
                 <td>{{ user.phone }}</td>
