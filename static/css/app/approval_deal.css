@@ -13,6 +13,7 @@
 .table-approval_deal tr th {
     width: 300px;
 }
+
 .glyphicon-remove:hover{
     cursor:pointer;
     color:red;

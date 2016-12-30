@@ -327,13 +327,67 @@ def approval_request(request):
 
 def get_approval_accept_page(request):
     user = request.user
-    host_requests = HostRequest.objects.filter(status=0).order_by("username")
+    c.execute("select distinct(ahq.username) from app_hostrequest ahq where ahq.status=0")
+    username_list = []
+
+    for host_request in c.fetchall():
+        if host_request:
+            username_list.append(host_request[0])
+    if username_list:
+        host_requests = HostRequest.objects.filter(status=0, username=username_list[0])
     return render_to_response("app/approval_deal.html", locals())
+
+
+def get_host_request_by_username(request):
+    username = request.POST.get("username")
+    host_requests = HostRequest.objects.filter(status=0, username=username)
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    rjson = json.dumps({"host_requests": host_requests})
+    response.write(rjson)
+    return response
 
 
 def approval_accept(request):
     requestid_list = request.GET.get("requestid_list")
+    request_nick_name_list = request.GET.get("request_nick_name_list")
+    to_user = request.GET.get("to_user")
     for request_id in requestid_list:
-        HostRequest.objects.filter(id=int(request_id)).update(status=1)
+        host_request = HostRequest.objects.filter(id=int(request_id))
+        host_request.update(status=1)
+    send_mail(request.user, to_user, "主机申请结果", "您所申请的主机："+request_nick_name_list + "已经通过审核,可以通过跳板机登陆")
+    # email = Email()
+    # email.from_user = request.user
+    # email.to_user = to_user
+    # email.title = "主机申请结果"
+    # email.content = "您所申请的主机："+request_nick_name_list + "已经通过审核,可以通过跳板机登陆"
+    # email.save()
+    #
+    # user_mail = UserMail()
+    # user_mail.email_id = email.id
+    # user_mail.username = to_user
+    # user_mail.save()
 
     return HttpResponseRedirect("/app/get_approval_accept_page/")
+
+
+def approval_deny(request):
+    requestid_list = request.GET.get("requestid_list")
+    for request_id in requestid_list:
+        HostRequest.objects.filter(id=int(request_id)).delete()
+
+    return HttpResponseRedirect("/app/get_approval_accept_page/")
+
+
+def send_mail(from_user, to_user, title, content):
+    email = Email()
+    email.from_user = from_user
+    email.to_user = to_user
+    email.title = title
+    email.content = content
+    email.save()
+
+    user_mail = UserMail()
+    user_mail.email_id = email.id
+    user_mail.username = to_user
+    user_mail.save()

@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^change_idc/$', views.change_idc),
     url(r'^change_group/$', views.change_group),
     url(r'^approval_request/.*$', views.approval_request),
+    url(r'^get_host_request_by_username/$', views.get_host_request_by_username),
     url(r'^approval_accept/$', views.approval_accept),
 ]
