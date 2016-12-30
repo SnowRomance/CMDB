@@ -31,9 +31,7 @@ def inbox(request):
         inbox["content"] = inbox_object[1]
         inbox["create_time"] = inbox_object[2]
         inbox["status"] = inbox_object[6]
-        print inbox["status"]
         inbox_list.append(inbox)
-        print inbox_list
     return render_to_response("order/inbox.html", {"user": user, "inbox_list": inbox_list})
 
 
@@ -67,7 +65,6 @@ def send(request):
     to_user = request.POST.get("to_user")
     title = request.POST.get("title")
     content = request.POST.get("content")
-    print content
     email = Email()
     email.from_user = from_user
     email.to_user = to_user

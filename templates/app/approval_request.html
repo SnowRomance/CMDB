@@ -19,7 +19,7 @@
             {% endfor %}
         </select>
     </div>
-    <div class="hostlist_box hostlist_box_left">
+    <div class="hostlist_box hostlist_box_left host">
         {% for host in host_list %}
             <span class="nick-name" data-hostname="{{ host.hostname }}">{{ host.nick_name }}</span>
         {% endfor %}
@@ -30,7 +30,7 @@
     </div>
     <div class="hostlist_box hostlist_box_right">
     </div>
-    <input class="btn-default btn-radius" value="Apply" />
+    <input class="btn-default btn-radius" value="Apply" id="apply" />
 {% endblock %}
 
 {% block script %}

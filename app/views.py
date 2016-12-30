@@ -272,18 +272,24 @@ def get_user_dict(filteruser):
 
 
 def approval_request(request):
-    hostname_list = request.GET.get("hostname_list")
-    ### 去除 hostname_list 字符串最后的 ,
-    hostname_list_split = hostname_list.split(",")
-    hostname_list = ""
-    i = 0
-    for i in range(0, len(hostname_list_split) - 2):
-        hostname_list = hostname_list + hostname_list_split[i] + ","
-    hostname_list = hostname_list + hostname_list_split[i]
-
+    host_list = request.POST.get("host_list")
+    host_list = json.loads(host_list)
     ### 获取 auth_user 的 email
     username = request.user
-    c.execute("select auth_user.* from auth_user where username='"+ str(username) + "'")
+    hostname_list = []
+    ### 插入申请请求
+    for host in host_list:
+        hostname = host["hostname"]
+        nickname = host["nickname"]
+        if not HostRequest.objects.filter(hostname=hostname):
+            host_request = HostRequest()
+            host_request.hostname = hostname
+            host_request.username = username
+            host_request.nickname = nickname
+            host_request.save()
+        hostname_list.append(nickname)
+
+    c.execute("select auth_user.* from auth_user where username='" + str(username) + "'")
     filteruser = c.fetchone()
     if filteruser is not None:
         user = get_user_dict(filteruser)
@@ -299,29 +305,24 @@ def approval_request(request):
         from_user = "admin"
         to_users_list = UserProfile.objects.filter(permissions=2)
         for to_user in to_users_list:
-            content = user + "申请访问主机" + hostname_list
+            content = user + "申请访问主机" + str(hostname_list)
             email = Email()
             email.from_user = from_user
             email.to_user = to_user.user.username
             email.title = "主机申请"
             email.content = content
             email.save()
-            print email.id
 
             user_mail = UserMail()
             user_mail.email_id = email.id
             user_mail.username = to_user.user.username
             user_mail.save()
 
-
-        ### 插入申请请求
-        for i in range(0, len(hostname_list_split)-1):
-            host_request = HostRequest()
-            host_request.hostname = hostname_list_split[i]
-            host_request.username = username
-            host_request.save()
-
-    return HttpResponseRedirect("/app/get_approval_request/")
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    rjson = json.dumps({"status": True})
+    response.write(rjson)
+    return response
 
 
 def get_approval_accept_page(request):
@@ -333,6 +334,6 @@ def get_approval_accept_page(request):
 def approval_accept(request):
     requestid_list = request.GET.get("requestid_list")
     for request_id in requestid_list:
-        HostRequest.objects.filter(id=int(request_id))
+        HostRequest.objects.filter(id=int(request_id)).update(status=1)
 
     return HttpResponseRedirect("/app/get_approval_accept_page/")

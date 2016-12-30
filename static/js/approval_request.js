@@ -17,7 +17,7 @@ $(function(){
                 $(".host").html()
                 _add_html = ""
                 for (var key in data["host_list_dict"]) {
-                    _add_html = _add_html + "<option data-hostname=\""+ data["host_list_dict"][key]["hostname"] +"\">" +data["host_list_dict"][key]["nick_name"]+ "</option>"
+                    _add_html = _add_html + "<span class='nick-name' data-hostname=\""+ data["host_list_dict"][key]["hostname"] +"\">" +data["host_list_dict"][key]["nick_name"]+ "</span>"
                 }
                 $(".host").html(_add_html)
             },
@@ -37,7 +37,7 @@ $(function(){
                 $(".host").html()
                 _add_html = ""
                 for (var key in data) {
-                    _add_html = _add_html + "<option data-hostname=\""+ data[key]["id"] +"\">" +data[key]["nick_name"]+ "</option>"
+                    _add_html = _add_html + "<span class='nick-name' data-hostname=\""+ data[key]["id"] +"\">" +data[key]["nick_name"]+ "</span>"
                 }
                 $(".host").html(_add_html)
             },
@@ -78,24 +78,28 @@ $(function(){
     });
 
     // hostlist_box_right request
-    $(".btn").on("click", function(){
-        var hostname_list = ""
+    $("#apply").on("click", function(){
+        var host_list = []
         $(".hostlist_box_right span").each(function(){
-            hostname_list = hostname_list + $(this).attr("data-hostname") + ","
+            _this = $(this)
+            hostname = _this.attr("data-hostname");
+            nickname = _this.html()
+            host_object_list = {"hostname": hostname, "nickname": nickname}
+            host_list.push(host_object_list)
         });
-//        $.ajax({
-//            type:"POST",
-//            url:"/app/approval_request/",
-//            data: {"hostname_list": hostname_list},
-//            dataType:"json",
-//            success:function(data){
-//                console.log('success');
-//            },
-//            error:function(data){
-//                console.log('error');
-//            }
-//        });
-        console.log(hostname_list)
-        location.href = "/app/approval_request/?hostname_list=" + hostname_list
+        console.log(host_list)
+        $.ajax({
+            type:"POST",
+            url:"/app/approval_request/",
+            data: {"host_list": JSON.stringify(host_list)},
+            dataType:"json",
+            success:function(data){
+                console.log('success');
+                location.href="/app/get_approval_request";
+            },
+            error:function(data){
+                console.log('error');
+            }
+        });
     });
 });
