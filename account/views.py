@@ -61,8 +61,8 @@ def ssh_key(email):
     print sapi.remote_execution(salt_master_name[0], 'cmd.run', {'arg1': mv_cmd})
 
     mail_host = 'smtp.exmail.qq.com'
-    mail_user = 'yangjun.liu@quvideo.com'
-    mail_pass = 'Lyj!2015'
+    mail_user = ''
+    mail_pass = ''
 
     se = send_email.EmailSender(mail_host, mail_user, mail_pass)
     se.send("cmdb 使用", [email], ["iZ940kub0iuZ"])
