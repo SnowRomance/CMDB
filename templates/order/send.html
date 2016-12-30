@@ -7,37 +7,39 @@
 {% endblock %}
 
 {% block content %}
-    <form action="/order/send/" method="post">
-        <label>收件人：</label><input type="text" name="to_user" value="{% if email_from_user != None %}{{ email_from_user }}{% endif %}" />
-        <label>主　题：</label><input type="text" name="title" value="{% if email_title != None %}{{ email_title }}{% endif %}" />
-        <textarea name="content" id="content">
-            {% if email_content != None %}
-                <br /><br /><br /><br />
-                <hr />
-                <div style="background:#f1f6f5;font-size:12px;">
-                    <p >
-                        发件人：<span>{{ email_from_user }}</span>&nbsp;
-                    </p>
+    <div id="mail">
+        <form action="/order/send/" method="post">
+            <label>收件人：</label><input type="text" name="to_user" value="{% if email_from_user != None %}{{ email_from_user }}{% endif %}" />
+            <label>主　题：</label><input type="text" name="title" value="{% if email_title != None %}{{ email_title }}{% endif %}" />
+            <textarea name="contain" id="contain">
+                {% if email_content != None %}
+                    <br /><br /><br /><br />
+                    <hr />
+                    <div style="background:#f1f6f5;font-size:12px;">
+                        <p >
+                            发件人：<span>{{ email_from_user }}</span>&nbsp;
+                        </p>
+                        <p>
+                            主&emsp;题:<span>{{ email_title }}</span>&nbsp;
+                        </p>
+                        <p>
+                            时&emsp;间:<span>{{ create_time }}</span>
+                        </p>
+                    </div><br />
                     <p>
-                        主&emsp;题:<span>{{ email_title }}</span>&nbsp;
+                        {{ email_content }}
                     </p>
+                    <hr />
                     <p>
-                        时&emsp;间:<span>{{ create_time }}</span>
+                        <p>
+                            <span style="color:#00D5FF;font-family:SimHei;font-size:14px;"><strong><u>{{ email_from_user }}</u></strong></span>
+                        </p>
                     </p>
-                </div><br />
-                <p>
-                    {{ email_content }}
-                </p>
-                <hr />
-                <p>
-                    <p>
-                        <span style="color:#00D5FF;font-family:SimHei;font-size:14px;"><strong><u>{{ email_from_user }}</u></strong></span>
-                    </p>
-                </p>
-            {% endif %}
-        </textarea>
-        <input type="submit" value="发送" id="send">
-    </form>
+                {% endif %}
+            </textarea>
+            <input type="submit" value="发送" id="send">
+        </form>
+    </div>
 {% endblock %}
 
 {% block script %}

@@ -1,3 +1,8 @@
+#content {
+    display:flex;
+    justify-content:space-between;
+}
+
 .email-list {
     display: inline-block;
     height:650px;
@@ -11,7 +16,6 @@
 }
 
 .email-list li {
-    margin-left: -40px;
     border-bottom: 1px dashed #808080;
 }
 .email-list label {

@@ -1,8 +1,8 @@
 $(function(){
     KindEditor.ready(function(K){
-        window.editor = K.create("#content", {
+        window.editor = K.create("#contain", {
             width: '90%',
-            height: '500px',
+            height: '600px',
         });
     });
 });

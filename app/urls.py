@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^modify_user_permissions/$', views.modify_user_permissions),
 
     url(r'^get_approval_request/$', views.get_approval_request),
+    url(r'^get_approval_accept_page/$', views.get_approval_accept_page),
     url(r'^change_idc/$', views.change_idc),
     url(r'^change_group/$', views.change_group),
     url(r'^approval_request/.*$', views.approval_request),

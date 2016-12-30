@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Approval_Request{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/app/approval_deal.css"/>
+{% endblock %}
+
+{% block content %}
+    <div id="contain">
+        <table class="table-default table-approval_deal">
+            <tr>
+                <th>用户名</th>
+                <th>主机名称</th>
+                <th>申请天数</th>
+                <th>状态</th>
+                <th>开始时间</th>
+                <th>操作</th>
+            </tr>
+            {% for host_request in host_requests %}
+                <tr>
+                    <td>{{ host_request.username }}</td>
+                    <td>{{ host_request.hostname }}</td>
+                    <td>{{ host_request.lease_time }}</td>
+                    <td>{{ host_request.status }}</td>
+                    <td>{{ host_request.create_time }}</td>
+                    <td><input type="checkbox" data-host_requestid="{{ host_request.id }}" class="checkbox"/></td>
+                </tr>
+            {% endfor %}
+            <div id="bt">
+                <span id="all">全选</span><span id="all_not">反选</span>
+            </div>
+
+            <input type="button" class="btn-default btn-radius" value="Accept" id="accept"/>
+        </table>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="/static/js/approval_deal.js"></script>
+{% endblock %}

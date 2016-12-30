@@ -1,0 +1,52 @@
+#content{
+    display:flex;
+    justify-content:space-between;
+}
+
+.table-approval_deal{
+    width:calc(100% - 150px);
+    float: right;
+    margin-right: 50px;
+    margin-top:50px;
+}
+
+.table-approval_deal tr th {
+    width: 300px;
+}
+.glyphicon-remove:hover{
+    cursor:pointer;
+    color:red;
+}
+
+span {
+    position: fixed;
+    display: block;
+    cursor: pointer;
+}
+
+#all {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #555555;
+    border-radius: 5px;
+    padding: 5px;
+    bottom: 60px;
+    left: 300px;
+}
+
+#all_not {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #555555;
+    border-radius: 5px;
+    padding: 5px;
+    bottom: 60px;
+    left: 400px;
+}
+
+.btn-default{
+    bottom: 40px;
+    position: fixed;
+    right: 70px;
+    z-index: 1;
+}

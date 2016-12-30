@@ -324,5 +324,15 @@ def approval_request(request):
     return HttpResponseRedirect("/app/get_approval_request/")
 
 
+def get_approval_accept_page(request):
+    user = request.user
+    host_requests = HostRequest.objects.filter(status=0).order_by("username")
+    return render_to_response("app/approval_deal.html", locals())
+
+
 def approval_accept(request):
-    request.POST.get("")
+    requestid_list = request.GET.get("requestid_list")
+    for request_id in requestid_list:
+        HostRequest.objects.filter(id=int(request_id))
+
+    return HttpResponseRedirect("/app/get_approval_accept_page/")
