@@ -271,6 +271,19 @@ def get_user_dict(filteruser):
     return user
 
 
+def send_mail(from_user, to_user, title, content):
+    email = Email()
+    email.from_user = from_user
+    email.to_user = to_user
+    email.title = title
+    email.content = content
+    email.save()
+
+    user_mail = UserMail()
+    user_mail.email_id = email.id
+    user_mail.username = to_user
+    user_mail.save()
+
 def approval_request(request):
     host_list = request.POST.get("host_list")
     host_list = json.loads(host_list)
@@ -306,17 +319,7 @@ def approval_request(request):
         to_users_list = UserProfile.objects.filter(permissions=2)
         for to_user in to_users_list:
             content = user + "申请访问主机" + str(hostname_list)
-            email = Email()
-            email.from_user = from_user
-            email.to_user = to_user.user.username
-            email.title = "主机申请"
-            email.content = content
-            email.save()
-
-            user_mail = UserMail()
-            user_mail.email_id = email.id
-            user_mail.username = to_user.user.username
-            user_mail.save()
+            send_mail(from_user, to_user.user.username, "主机申请", content)
 
     response = HttpResponse()
     response['Content-Type'] = "text/javascript"
@@ -327,13 +330,28 @@ def approval_request(request):
 
 def get_approval_accept_page(request):
     user = request.user
-    host_requests = HostRequest.objects.filter(status=0).order_by("username")
+    request_user_list = []
+    c.execute("select distinct(ahq.username) from app_hostrequest ahq")
+    for request_user in c.fetchall():
+        request_user_list.append(request_user[0])
+
+    host_requests = HostRequest.objects.filter(status=0, username=request_user_list[0])
     return render_to_response("app/approval_deal.html", locals())
 
 
 def approval_accept(request):
     requestid_list = request.GET.get("requestid_list")
-    for request_id in requestid_list:
-        HostRequest.objects.filter(id=int(request_id)).update(status=1)
+    request_status = request.GET.get("request_status")
+    request_user = request.GET.get("request_user")
+    request_nick_name_list = []
+    requestid_list = requestid_list.split(",")
+    print requestid_list
+    for key in range(0, len(requestid_list)-1):
+        host_request = HostRequest.objects.filter(id=requestid_list[key])
+        request_nick_name_list.append(host_request[0].nick_name)
+        host_request.update(status=request_status)
+    content = "您所申请的主机："+ str(request_nick_name_list) +"已经通过审核,可以通过跳板机登陆"
+
+    send_mail("admin", request_user, "主机申请", content)
 
     return HttpResponseRedirect("/app/get_approval_accept_page/")

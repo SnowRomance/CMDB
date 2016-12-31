@@ -8,6 +8,11 @@
 
 {% block content %}
     <div id="contain">
+        <select id="request_user">
+            {% for request_user in request_user_list %}
+                <option>{{ request_user }}</option>
+            {% endfor %}
+        </select>
         <table class="table-default table-approval_deal">
             <tr>
                 <th>用户名</th>
@@ -27,12 +32,14 @@
                     <td><input type="checkbox" data-host_requestid="{{ host_request.id }}" class="checkbox"/></td>
                 </tr>
             {% endfor %}
-            <div id="bt">
-                <span id="all">全选</span><span id="all_not">反选</span>
-            </div>
-
-            <input type="button" class="btn-default btn-radius" value="Accept" id="accept"/>
         </table>
+
+        <div id="bt">
+            <span id="all">全选</span><span id="all_not">反选</span>
+        </div>
+
+        <input type="button" class="btn-default btn-radius" value="Deny" id="deny"/>
+        <input type="button" class="btn-default btn-radius" value="Accept" id="accept"/>
     </div>
 {% endblock %}
 

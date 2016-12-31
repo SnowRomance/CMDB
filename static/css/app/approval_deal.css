@@ -3,6 +3,12 @@
     justify-content:space-between;
 }
 
+#request_user {
+    width: 150px;
+    margin-top: 3px;
+    margin-left: 3px;
+}
+
 .table-approval_deal{
     width:calc(100% - 150px);
     float: right;
@@ -44,7 +50,13 @@ span {
     left: 400px;
 }
 
-.btn-default{
+#deny{
+    bottom: 40px;
+    position: fixed;
+    right: 250px;
+    z-index: 1;
+}
+#accept{
     bottom: 40px;
     position: fixed;
     right: 70px;

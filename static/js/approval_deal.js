@@ -7,10 +7,20 @@ $(function(){
     });
 
     $("#accept").on("click", function(){
+        var request_user = $("#request_user").val()
+        var requestid_list = ""
+        $(".checkbox:checked").each(function(){
+            requestid_list += $(this).attr("data-host_requestid") +","
+        })
+        location.href="/app/approval_accept?request_status=1" +"&request_user=" + request_user + "&requestid_list=" + requestid_list
+    });
+
+    $("#deny").on("click", function(){
+        var request_user = $("#request_user").val()
         var requestid_list = []
         $(".checkbox:checked").each(function(){
-            requestid_list.push($(this).attr("data-host_requestid"))
+            requestid_list += $(this).attr("data-host_requestid") +","
         })
-        location.href="/app/approval_accept?requestid_list=" + requestid_list
+        location.href="/app/approval_accept?request_status=2" +"&request_user=" + request_user + "&requestid_list=" + requestid_list
     });
 });
