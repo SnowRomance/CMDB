@@ -17,6 +17,7 @@ import send_email
 def index(request):
     pass
 
+
 def ssh_key(email):
     salt_master_ip = ["120.76.130.53"]
     salt_master_name = ["iZ94fa46qhcZ"]
@@ -29,9 +30,10 @@ def ssh_key(email):
     #### user ssh-keygen
     user_cmd = "ssh-keygen -t dsa -P '' -f /home/" + user + "/.ssh/id_rsa"
     #### cp 文件
-    cp_cmd = "cp /home/"+ user+"/.ssh/id_rsa.pub /home/"+user+"/.ssh/authorized_keys"
+    cp_cmd = "cp /home/" + user + "/.ssh/id_rsa.pub /home/" + user + "/.ssh/authorized_keys"
     #### mv 文件
-    mv_cmd = "mv /var/cache/salt/master/minions/"+jumper_ip[0]+"/files/home/"+user+"/.ssh/id_rsa /web/CMDB/static/upload/"+user+"_cmdb_login_id_rsa"
+    mv_cmd = "mv /var/cache/salt/master/minions/" + jumper_ip[0] + "/files/home/" + user + \
+             "/.ssh/id_rsa /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa"
 
     cf = ConfigParser.ConfigParser()
     cf.read("/web/CMDB/app/backend/config.ini")
@@ -47,14 +49,14 @@ def ssh_key(email):
         #### 生成 ssh-key
         print sapi.remote_execution(jumper_ip[ip_num], 'cmd.run',
                                     {'arg1': user_cmd,
-                                     'arg2': 'runas='+user})
+                                     'arg2': 'runas=' + user})
         ### 生成 authrized_keys
         print sapi.remote_execution(jumper_ip[ip_num], 'cmd.run',
                                     {'arg1': cp_cmd,
-                                    'arg2': 'runas='+user})
+                                     'arg2': 'runas=' + user})
     salt_url = "https://" + salt_master_ip[0] + ":8888"
     sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
-    print sapi.remote_execution(jumper_ip[0], 'cp.push', {'arg1':'/home/'+ user +'/.ssh/id_rsa'})
+    print sapi.remote_execution(jumper_ip[0], 'cp.push', {'arg1': '/home/' + user + '/.ssh/id_rsa'})
     # print sapi.remote_execution(salt_master_ip[0], 'cmd.run',
     #                             {'arg1': "sz /var/cache/salt/master/minions/"+jumper_ip[0]+"/files/home/"+user+"/.ssh/id_rsa",
     #                             })
@@ -67,6 +69,7 @@ def ssh_key(email):
     se = send_email.EmailSender(mail_host, mail_user, mail_pass)
     se.send("cmdb 使用", [email], ["iZ940kub0iuZ"])
     se.close()
+
 
 # @login_required()
 def userRegister(request):
@@ -124,8 +127,8 @@ def userRegister(request):
 
 def login(request):
     errors = []
-    username =""
-    password =""
+    username = ""
+    password = ""
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -142,7 +145,11 @@ def login(request):
                 return HttpResponseRedirect("/app/index/")
         except Exception, e:
             errors.append(str(e))
-            return render_to_response("account/login.html", {'loginForm': loginForm, 'username': username, 'password': password, 'errors': errors})
+            return render_to_response("account/login.html",
+                                      {'loginForm': loginForm, 'username': username, 'password': password,
+                                       'errors': errors})
     else:
         loginForm = LoginForm()
-        return render_to_response("account/login.html", {'loginForm': loginForm, 'username': username, 'password': password, 'errors': errors})
+        return render_to_response("account/login.html",
+                                  {'loginForm': loginForm, 'username': username, 'password': password,
+                                   'errors': errors})

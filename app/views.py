@@ -8,6 +8,7 @@ from app.backend.saltapi import SaltAPI
 from django.contrib.auth.models import User
 from order.models import *
 from account.models import *
+import ConfigParser
 import json
 import sys
 reload(sys)
@@ -349,7 +350,44 @@ def approval_accept(request):
     for key in range(0, len(requestid_list)-1):
         host_request = HostRequest.objects.filter(id=requestid_list[key])
         request_nick_name_list.append(host_request[0].nick_name)
+        hostname = host_request[0].hostname
+        host = HostList.objects.filter(hostname=hostname)
+        idc = Idc.objects.filter(idc_name=host[0].idc_name)
+        salt_ip = idc[0].salt_ip
+        jumper_ip = idc[0].jumper_ip
+        username = host_request[0].username
+        print salt_ip, jumper_ip
+
+        salt_master_ip = ["120.76.130.53"]
+        #### user ssh-keygen
+        user_cmd = "ssh-keygen -t dsa -P '' -f /home/" + username + "/.ssh/id_rsa"
+        #### cp 文件
+        cp_cmd = "cp /home/" + username + "/.ssh/id_rsa.pub /home/" + username + "/.ssh/authorized_keys"
+
+        cf = ConfigParser.ConfigParser()
+        cf.read("/web/CMDB/app/backend/config.ini")
+        salt_user = cf.get("saltstack", "user")
+        salt_pass = cf.get("saltstack", "pass")
+
+        #### 循环多个 跳板机
+        for ip_num in range(0, len(salt_master_ip)):
+            salt_url = "https://" + salt_master_ip[ip_num] + ":8888"
+            sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
+            #### 创建用户
+            print sapi.remote_execution(hostname, 'user.add', {'arg1': username})
+            #### 生成 ssh-key
+            print sapi.remote_execution(hostname, 'cmd.run',
+                                        {'arg1': user_cmd,
+                                         'arg2': 'runas=' + username})
+            ### 生成 authrized_keys
+            print sapi.remote_execution(hostname, 'cmd.run',
+                                        {'arg1': cp_cmd,
+                                         'arg2': 'runas=' + username})
+
+            ### 修改 sudoers 添加 username sudo 权限
+
         host_request.update(status=request_status)
+
     content = "您所申请的主机："+ str(request_nick_name_list) +"已经通过审核,可以通过跳板机登陆"
 
     send_mail("admin", request_user, "主机申请", content)
