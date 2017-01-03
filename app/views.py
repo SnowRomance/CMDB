@@ -376,7 +376,7 @@ def approval_accept(request):
             #### chmod u+w /etc/sudoers
             chw_cmd = "chmod u+w /etc/sudoers"
             #### 添加 sudo 权限
-            sed_cmd = "sed -i '$a " + user + "    ALL=(ALL)       ALL ' /etc/sudoers"
+            sed_cmd = "sed -i '$a " + user + "    ALL=(ALL)       NOPASSWD:ALL ' /etc/sudoers"
             #### chmod u-w /etc/sudoers
             chw_cut_cmd = "chmod u-w /etc/sudoers"
 
