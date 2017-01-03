@@ -258,15 +258,18 @@ def get_host_dict(filterhost):
 
 def get_approval_request(request):
     idc_list = Idc.objects.all()
-    idc_name = idc_list[0].idc_name
-    group_list = Group.objects.filter(idc_name=idc_name)
-    group_name = group_list[0].group_name
-    c.execute("select ah.* from app_hostlist ah where ah.hostname not in (select al.hostname from app_lease al) and ah.group_name='" + str(group_name) + "' and ah.idc_name='" + str(idc_name) + "'")
-
+    group_list = []
     host_list = []
-    for filterhost in c.fetchall():
-        host = get_host_dict(filterhost)
-        host_list.append(host)
+    if idc_list:
+        idc_name = idc_list[0].idc_name
+        group_list = Group.objects.filter(idc_name=idc_name)
+        if group_list:
+            group_name = group_list[0].group_name
+            c.execute("select ah.* from app_hostlist ah where ah.hostname not in (select al.hostname from app_lease al) and ah.group_name='" + str(group_name) + "' and ah.idc_name='" + str(idc_name) + "'")
+
+            for filterhost in c.fetchall():
+                host = get_host_dict(filterhost)
+                host_list.append(host)
     return render_to_response("app/approval_request.html", {"user": request.user, "idc_list": idc_list, "group_list": group_list, "host_list": host_list})
 
 
