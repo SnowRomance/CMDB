@@ -17,7 +17,7 @@ class EmailSender(object):
 
         self.sender = smtpObj
 
-    def send(self, subject, receivers, jumper_ip):
+    def send(self, subject, receivers):
         ### 获取 user
         user = ""
         user_part = receivers[0].split('@')[0]
@@ -25,10 +25,10 @@ class EmailSender(object):
             user = user + user_p
         _html_text = """
                 <B> Hi, """ + user + """<br/>
-                1. 下载邮件附件中的""" + user + """_cmdb_login_id_rsa<br/>
+                1. 下载邮件附件中的cmdb_id_dsa<br/>
                 2. 打开Xshell或secureCRT等终端仿真程序<br/>
-                3. 新建会话: 主机为跳板机login的外网IP有: """ + ",".join(jumper_ip) + """, 用户名为:""" + user + """<br/>
-                4. 连接会话, 用户密钥选择login_id_rsa,即可登陆login<br/>
+                3. 新建会话: 用户名为:""" + user + """<br/>
+                4. 连接会话, 用户密钥选择cmdb_id_dsa,即可登陆主机<br/>
                 配置完成后,建议即刻彻底删除该邮件</B>
         """
         msg = MIMEMultipart()
