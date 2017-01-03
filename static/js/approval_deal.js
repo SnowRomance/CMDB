@@ -7,46 +7,20 @@ $(function(){
     });
 
     $("#accept").on("click", function(){
-        var requestid_list = []
-        var request_nick_name_list = []
-        var request_host_name_list = []
-        var username = $("#user_list").val()
-        console.log(username)
+        var request_user = $("#request_user").val()
+        var requestid_list = ""
         $(".checkbox:checked").each(function(){
-            requestid_list.push($(this).attr("data-host_requestid"))
-            request_host_name_list.push($(this).parents("tr").find("td").eq(1).html())
-            request_nick_name_list.push($(this).parents("tr").find("td").eq(2).html())
+            requestid_list += $(this).attr("data-host_requestid") +","
         })
-        $.ajax({
-            type:"POST",
-            url:"/app/approval_accept/",
-            data: {"username": username, "requestid_list": requestid_list, "request_host_name_list": request_host_name_list,
-            "request_nick_name_list": request_nick_name_list},
-            dataType:"json",
-            success:function(data){
-                console.log(data);
-            },
-            error:function(data){
-                console.log('error');
-            }
-        });
-//        location.href="/app/approval_accept?requestid_list=" + requestid_list +"&request_host_name_list=" +
-//        request_host_name_list + "&request_nick_name_list=" + request_nick_name_list + "&username=" + username
+        location.href="/app/approval_accept?request_status=1" +"&request_user=" + request_user + "&requestid_list=" + requestid_list
     });
 
-    $("#user_list").on("change", function(){
-        username = $(this).val()
-        $.ajax({
-            type:"POST",
-            url:"/app/get_host_request_by_username/",
-            data: {"username": username},
-            dataType:"json",
-            success:function(data){
-                console.log(data);
-            },
-            error:function(data){
-                console.log('error');
-            }
-        });
+    $("#deny").on("click", function(){
+        var request_user = $("#request_user").val()
+        var requestid_list = []
+        $(".checkbox:checked").each(function(){
+            requestid_list += $(this).attr("data-host_requestid") +","
+        })
+        location.href="/app/approval_accept?request_status=2" +"&request_user=" + request_user + "&requestid_list=" + requestid_list
     });
 });

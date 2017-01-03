@@ -8,16 +8,15 @@
 
 {% block content %}
     <div id="contain">
-        <select id="user_list">
-            {% for user in username_list %}
-                <option>{{ user }}</option>
+        <select id="request_user">
+            {% for request_user in request_user_list %}
+                <option>{{ request_user }}</option>
             {% endfor %}
         </select>
         <table class="table-default table-approval_deal">
             <tr>
                 <th>用户名</th>
                 <th>主机名称</th>
-                <th>主机别名</th>
                 <th>申请天数</th>
                 <th>状态</th>
                 <th>开始时间</th>
@@ -27,7 +26,6 @@
                 <tr>
                     <td>{{ host_request.username }}</td>
                     <td>{{ host_request.hostname }}</td>
-                    <td>{{ host_request.nick_name }}</td>
                     <td>{{ host_request.lease_time }}</td>
                     <td>{{ host_request.status }}</td>
                     <td>{{ host_request.create_time }}</td>
@@ -40,6 +38,7 @@
             <span id="all">全选</span><span id="all_not">反选</span>
         </div>
 
+        <input type="button" class="btn-default btn-radius" value="Deny" id="deny"/>
         <input type="button" class="btn-default btn-radius" value="Accept" id="accept"/>
     </div>
 {% endblock %}
