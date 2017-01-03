@@ -8,6 +8,7 @@ from app.backend.saltapi import SaltAPI
 from django.contrib.auth.models import User
 from order.models import *
 from account.models import *
+from datetime import timedelta
 import ConfigParser
 import json
 import sys
@@ -353,6 +354,8 @@ def approval_accept(request):
         print request_status
         if request_status == "1":
             hostname = host_request[0].hostname
+            create_time = host_request[0].create_time
+            print create_time
             host = HostList.objects.filter(hostname=hostname)
             idc = Idc.objects.filter(idc_name=host[0].idc_name)
             salt_ip = idc[0].salt_ip
@@ -390,7 +393,11 @@ def approval_accept(request):
                 salt_url = "https://" + salt_master_ip[ip_num] + ":8888"
                 sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
                 #### 创建用户
-                print sapi.remote_execution(hostname, 'user.add', {'arg1': "-e 30",'arg2': user})
+                print sapi.remote_execution(hostname, 'user.add', {'arg1': user})
+                aDay = timedelta(days=-1)
+                time_now =  create_time + aDay
+                print time_now
+                print sapi.remote_execution(hostname, 'cmd.run', {'arg1': "usermod -e " +str(time_now)+" "+ user})
                 #### 生成 ssh-key
                 print sapi.remote_execution(hostname, 'cmd.run',
                                             {'arg1': user_cmd,
