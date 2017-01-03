@@ -138,6 +138,12 @@ def sync_host(request):
             hostlist.group_name = sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'cat /tmp/cmdb.txt | grep "group"'})[0][ac_key].split("=")[1]
             hostlist.inner_ip = content['ip_interfaces']['eth0'][0]
             hostlist.save()
+
+            lease = Lease()
+            lease.hostname = ac_key
+            lease.username = 'admin'
+            lease.lease_time = 0
+            lease.save()
     host_list = HostList.objects.all().order_by("idc_name", "group_name")
     response = HttpResponse()
     host_list_dict = {}
@@ -423,6 +429,10 @@ def approval_accept(request):
                 print sapi.remote_execution(hostname, 'cmd.run',
                                             {'arg1': chw_cut_cmd,
                                              'arg2': 'runas=root'})
+            lease = Lease()
+            lease.hostname = hostname
+            lease.username = request_user
+            lease.save()
         host_request.update(status=request_status)
 
     content = "您所申请的主机："+ str(request_nick_name_list) +"已经通过审核,可以通过跳板机登陆"
