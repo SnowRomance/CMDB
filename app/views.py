@@ -342,11 +342,13 @@ def approval_request(request):
 def get_approval_accept_page(request):
     user = request.user
     request_user_list = []
+    host_requests = []
     c.execute("select distinct(ahq.username) from app_hostrequest ahq")
     for request_user in c.fetchall():
         request_user_list.append(request_user[0])
 
-    host_requests = HostRequest.objects.filter(status=0, username=request_user_list[0])
+    if request_user_list:
+        host_requests = HostRequest.objects.filter(status=0, username=request_user_list[0])
     return render_to_response("app/approval_deal.html", locals())
 
 
