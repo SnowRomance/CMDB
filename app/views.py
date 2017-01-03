@@ -117,29 +117,25 @@ def modify_group_remark(request):
 ### host_list ###
 def sync_host(request):
     accepet_keys = sapi.list_all_key()
-    for ac_key in accepet_keys[0]:
-        content = sapi.remote_noarg_execution(ac_key, 'grains.items')
-        if len(content['ip_interfaces']) == 3:
-            ip = content['ip_interfaces']['eth1'][0]
-        else:
-            ip = "N/A"
-        host = HostList.objects.filter(hostname=ac_key, ip=ip)
-        if not host:
-            hostlist = HostList()
-            hostlist.ip = ip
-            hostlist.hostname = ac_key
-            hostlist.nick_name = ac_key
+    if accepet_keys:
+        for ac_key in accepet_keys[0]:
+            content = sapi.remote_noarg_execution(ac_key, 'grains.items')
+            if len(content['ip_interfaces']) == 3:
+                ip = content['ip_interfaces']['eth1'][0]
+            else:
+                ip = "N/A"
+            host = HostList.objects.filter(hostname=ac_key, ip=ip)
+            if not host:
+                hostlist = HostList()
+                hostlist.ip = ip
+                hostlist.hostname = ac_key
+                hostlist.nick_name = ac_key
 
-            hostlist.idc_name = sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'cat /tmp/cmdb.txt | grep "idc"'})[0][ac_key].split("=")[1]
-            hostlist.group_name = sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'cat /tmp/cmdb.txt | grep "group"'})[0][ac_key].split("=")[1]
-            hostlist.inner_ip = content['ip_interfaces']['eth0'][0]
-            hostlist.save()
+                hostlist.idc_name = sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'cat /tmp/cmdb.txt | grep "idc"'})[0][ac_key].split("=")[1]
+                hostlist.group_name = sapi.remote_execution(ac_key, 'cmd.run', {'arg1':'cat /tmp/cmdb.txt | grep "group"'})[0][ac_key].split("=")[1]
+                hostlist.inner_ip = content['ip_interfaces']['eth0'][0]
+                hostlist.save()
 
-            lease = Lease()
-            lease.hostname = ac_key
-            lease.username = 'admin'
-            lease.lease_time = 0
-            lease.save()
     host_list = HostList.objects.all().order_by("idc_name", "group_name")
     response = HttpResponse()
     host_list_dict = {}
