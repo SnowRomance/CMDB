@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 import HTMLParser
 import MySQLdb as mysql
-from CMDB.settings_config import dbconfig, saltconfig
+from CMDB.settings_config import dbconfig
 import cgi
 import json
 

@@ -51,13 +51,9 @@ def get_add_idc_page(request):
 def add_idc(request):
     idc_name = request.POST.get("idc_name")
     idc_remark = request.POST.get("idc_remark")
-    idc_salt = request.POST.get("idc_salt")
-    idc_jump = request.POST.get("idc_jump")
     idc = Idc()
     idc.idc_name = str(idc_name)
     idc.remark = str(idc_remark)
-    idc.salt_ip = str(idc_salt)
-    idc.jumper_ip = str(idc_jump)
     idc.save()
     return redirect("/app/idc/")
 

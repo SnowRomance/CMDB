@@ -18,68 +18,6 @@ def index(request):
     pass
 
 
-# def ssh_key(email):
-#     salt_master_ip = ["120.76.130.53"]
-#     salt_master_name = ["iZ94fa46qhcZ"]
-#
-#     idc_list = Idc.objects.all()
-#     jumper_name = []
-#     for idc in idc_list:
-#         host_list = HostList.objects.filter(ip=idc.jumper_ip)
-#         jumper_name.append(host_list[0].hostname)
-#
-#     ### 获取 user
-#     user = ""
-#     user_part = email.split('@')[0]
-#     for user_p in user_part.split('.'):
-#         user = user + user_p
-#     #### user ssh-keygen
-#     user_cmd = "ssh-keygen -t dsa -P '' -f /home/" + user + "/.ssh/id_rsa"
-#     #### cp 文件
-#     cp_cmd = "cp /home/" + user + "/.ssh/id_rsa.pub /home/" + user + "/.ssh/authorized_keys"
-#     #### mv 文件
-#     mv_cmd = "mv /var/cache/salt/master/minions/" + jumper_name[0] + "/files/home/" + user + \
-#              "/.ssh/id_rsa /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa"
-#
-#     mv_cmd_pub = "mv /var/cache/salt/master/minions/" + jumper_name[0] + "/files/home/" + user + \
-#              "/.ssh/id_rsa_pub /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa_pub"
-#
-#     cf = ConfigParser.ConfigParser()
-#     cf.read("/web/CMDB/app/backend/config.ini")
-#     salt_user = cf.get("saltstack", "user")
-#     salt_pass = cf.get("saltstack", "pass")
-#
-#     #### 循环多个 跳板机
-#     for ip_num in range(0, len(salt_master_ip)):
-#         salt_url = "https://" + salt_master_ip[ip_num] + ":8888"
-#         sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
-#         #### 创建用户
-#         print sapi.remote_execution(jumper_name[ip_num], 'user.add', {'arg1': user})
-#         #### 生成 ssh-key
-#         print sapi.remote_execution(jumper_name[ip_num], 'cmd.run',
-#                                     {'arg1': user_cmd,
-#                                      'arg2': 'runas=' + user})
-#         ### 生成 authrized_keys
-#         print sapi.remote_execution(jumper_name[ip_num], 'cmd.run',
-#                                     {'arg1': cp_cmd,
-#                                      'arg2': 'runas=' + user})
-#         #### rsa
-#         print sapi.remote_execution(jumper_name[ip_num], 'cp.push', {'arg1': '/home/' + user + '/.ssh/id_rsa'})
-#         print sapi.remote_execution(salt_master_name[ip_num], 'cmd.run', {'arg1': mv_cmd})
-#
-#         #### rsa.pub
-#         print sapi.remote_execution(jumper_name[ip_num], 'cp.push', {'arg1': '/home/' + user + '/.ssh/id_rsa.pub'})
-#         print sapi.remote_execution(salt_master_name[ip_num], 'cmd.run', {'arg1': mv_cmd_pub})
-#
-#     mail_host = cf.get('admin_email', "mail_host")
-#     mail_user = cf.get('admin_email', "mail_user")
-#     mail_pass = cf.get('admin_email', "mail_pass")
-#
-#     se = send_email.EmailSender(mail_host, mail_user, mail_pass)
-#     se.send("cmdb 使用", [email], ["iZ940kub0iuZ"])
-#     se.close()
-
-
 def get_ssh_key(email):
     ### 获取 user
     user = ""

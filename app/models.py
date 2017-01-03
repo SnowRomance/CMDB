@@ -7,12 +7,10 @@ class Idc(models.Model):
     id = models.AutoField(primary_key=True, verbose_name=u'机房Id')
     idc_name = models.CharField(max_length=40, unique=True, verbose_name=u'机房名称')
     remark = models.CharField(max_length=40, verbose_name=u'备注')
-    salt_ip = models.GenericIPAddressField(null=True, verbose_name=u'管理机器IP')
-    jumper_ip = models.GenericIPAddressField(null=True, verbose_name=u'跳板机IP')
     create_time = models.DateField(default=datetime.datetime.now(), verbose_name=u'创建时间')
 
     def __unicode__(self):
-        return {"id": self.id, "idc_name": self.idc_name, "remark": self.remark, "salt_ip": str(self.salt_ip), "jumper_ip": str(self.jumper_ip),"create_time": self.create_time}
+        return {"id": self.id, "idc_name": self.idc_name, "remark": self.remark, "create_time": self.create_time}
 
     class Meta:
         verbose_name = u'机房列表'
