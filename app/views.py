@@ -358,19 +358,12 @@ def approval_accept(request):
     request_user = request.GET.get("request_user")
     request_nick_name_list = []
     requestid_list = requestid_list.split(",")
-    print requestid_list
     for key in range(0, len(requestid_list)-1):
         host_request = HostRequest.objects.filter(id=requestid_list[key])
         request_nick_name_list.append(host_request[0].nick_name)
-        print request_status
         if request_status == "1":
             hostname = host_request[0].hostname
             create_time = host_request[0].create_time
-            print create_time
-            host = HostList.objects.filter(hostname=hostname)
-            idc = Idc.objects.filter(idc_name=host[0].idc_name)
-            salt_ip = idc[0].salt_ip
-            jumper_ip = idc[0].jumper_ip
 
             c.execute("select auth_user.* from auth_user where username='" + str(request_user) + "'")
             filteruser = c.fetchone()
@@ -383,8 +376,6 @@ def approval_accept(request):
                 for user_p in user_part.split('.'):
                     user = user + user_p
 
-            salt_master_ip = ["120.76.130.53"]
-            salt_master_name = ["iZ94fa46qhcZ"]
             #### user ssh-keygen
             user_cmd = "ssh-keygen -t dsa -P '' -f /home/" + user + "/.ssh/id_rsa"
             #### chmod u+w /etc/sudoers
@@ -396,52 +387,50 @@ def approval_accept(request):
 
             cf = ConfigParser.ConfigParser()
             cf.read("/web/CMDB/app/backend/config.ini")
+
+            salt_url = cf.get("saltstack", "url")
             salt_user = cf.get("saltstack", "user")
             salt_pass = cf.get("saltstack", "pass")
 
-            #### 循环多个 跳板机
-            for ip_num in range(0, len(salt_master_ip)):
-                salt_url = "https://" + salt_master_ip[ip_num] + ":8888"
-                sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
-                #### 创建用户
-                print sapi.remote_execution(hostname, 'user.add', {'arg1': user})
-                aDay = timedelta(days=30)
-                time_now =  create_time + aDay
-                print time_now
-                print sapi.remote_execution(hostname, 'cmd.run', {'arg1': "usermod -e " +str(time_now)+" "+ user})
-                #### 生成 ssh-key
-                print sapi.remote_execution(hostname, 'cmd.run',
-                                            {'arg1': user_cmd,
-                                             'arg2': 'runas=' + user})
-                #### cp.get_file authrized_keys
-                print sapi.remote_execution(hostname, 'cp.get_file',
-                                            {'arg1': "salt://"+user+"_cmdb_login_id_rsa_pub",
-                                             'arg2': "/home/"+user+"/.ssh/authorized_keys"})
+            sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
+            #### 创建用户
+            print sapi.remote_execution(hostname, 'user.add', {'arg1': user})
+            aDay = timedelta(days=30)
+            time_now =  create_time + aDay
+            print sapi.remote_execution(hostname, 'cmd.run', {'arg1': "usermod -e " + str(time_now)+" " + user})
+            #### 生成 ssh-key
+            print sapi.remote_execution(hostname, 'cmd.run',
+                                        {'arg1': user_cmd,
+                                         'arg2': 'runas=' + user})
+            #### cp.get_file authrized_keys
+            print sapi.remote_execution(hostname, 'cp.get_file',
+                                        {'arg1': "salt://"+user+"_cmdb_login_id_rsa_pub",
+                                         'arg2': "/home/"+user+"/.ssh/authorized_keys"})
 
-                #### chowd user:user .ssh
-                print sapi.remote_execution(hostname, 'cmd.run',
-                                            {'arg1': "chown -R "+user + ":" + user+" /home/" +user + "/.ssh"})
+            #### chowd user:user .ssh
+            print sapi.remote_execution(hostname, 'cmd.run',
+                                        {'arg1': "chown -R "+user + ":" + user+" /home/" +user + "/.ssh"})
 
-                ### 修改 sudoers 添加 username sudo 权限
-                print sapi.remote_execution(hostname, 'cmd.run',
-                                            {'arg1': chw_cmd,
-                                             'arg2': 'runas=root'})
+            ### 修改 sudoers 添加 username sudo 权限
+            print sapi.remote_execution(hostname, 'cmd.run',
+                                        {'arg1': chw_cmd,
+                                         'arg2': 'runas=root'})
 
-                print sapi.remote_execution(hostname, 'cmd.run',
-                                            {'arg1': sed_cmd,
-                                             'arg2': 'runas=root'})
+            print sapi.remote_execution(hostname, 'cmd.run',
+                                        {'arg1': sed_cmd,
+                                         'arg2': 'runas=root'})
 
-                print sapi.remote_execution(hostname, 'cmd.run',
-                                            {'arg1': chw_cut_cmd,
-                                             'arg2': 'runas=root'})
+            print sapi.remote_execution(hostname, 'cmd.run',
+                                        {'arg1': chw_cut_cmd,
+                                         'arg2': 'runas=root'})
             lease = Lease()
             lease.hostname = hostname
             lease.username = request_user
             lease.save()
         host_request.update(status=request_status)
 
+    #### send mail
     content = "您所申请的主机："+ str(request_nick_name_list) +"已经通过审核,可以通过跳板机登陆"
-
     send_mail("admin", request_user, "主机申请", content)
 
     return HttpResponseRedirect("/app/get_approval_accept_page/")
