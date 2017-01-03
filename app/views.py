@@ -393,7 +393,7 @@ def approval_accept(request):
             chw_cut_cmd = "chmod u-w /etc/sudoers"
 
             cf = ConfigParser.ConfigParser()
-            cf.read("E://Py_Work/CMDB/app/backend/config.ini")
+            cf.read("/web/CMDB/app/backend/config.ini")
             salt_user = cf.get("saltstack", "user")
             salt_pass = cf.get("saltstack", "pass")
 
