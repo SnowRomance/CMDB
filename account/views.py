@@ -30,9 +30,9 @@ def get_ssh_key(email):
     #### cp 文件
     cp_cmd = "cp /home/" + user + "/.ssh/id_rsa.pub /home/" + user + "/.ssh/authorized_keys"
     #### mv 文件
-    mv_cmd = "mv /home/" + user + "/.ssh/id_rsa /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa"
+    mv_cmd = "cp /home/" + user + "/.ssh/id_rsa /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa"
 
-    mv_cmd_pub = "mv /home/" + user + "/.ssh/id_rsa.pub /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa_pub"
+    mv_cmd_pub = "cp /home/" + user + "/.ssh/id_rsa.pub /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa_pub"
 
     cf = ConfigParser.ConfigParser()
     cf.read("/web/CMDB/app/backend/config.ini")

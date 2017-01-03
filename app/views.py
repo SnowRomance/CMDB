@@ -399,6 +399,16 @@ def approval_accept(request):
                                         {'arg1': "salt://"+user+"_cmdb_login_id_rsa_pub",
                                          'arg2': "/home/"+user+"/.ssh/authorized_keys"})
 
+            #### cp.get_file id_rsa
+            print sapi.remote_execution(hostname, 'cp.get_file',
+                                        {'arg1': "salt://" + user + "_cmdb_login_id_rsa",
+                                         'arg2': "/home/" + user + "/.ssh/id_rsa"})
+
+            #### cp.get_file id_rsa.pub
+            print sapi.remote_execution(hostname, 'cp.get_file',
+                                        {'arg1': "salt://" + user + "_cmdb_login_id_rsa_pub",
+                                         'arg2': "/home/" + user + "/.ssh/id_rsa.pub"})
+
             #### chowd user:user .ssh
             print sapi.remote_execution(hostname, 'cmd.run',
                                         {'arg1': "chown -R "+user + ":" + user+" /home/" +user + "/.ssh"})
