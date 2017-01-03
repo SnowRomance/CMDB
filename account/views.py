@@ -81,17 +81,12 @@ def index(request):
 
 
 def get_ssh_key(email):
-    cf = ConfigParser.ConfigParser()
-    cf.read("/web/CMDB/app/backend/config.ini")
-
-    salt_master_ip = cf.get("saltstack", "salt_master_ip")
-    salt_master_name = cf.get("saltstack", "salt_master_name")
-
     ### 获取 user
     user = ""
     user_part = email.split('@')[0]
     for user_p in user_part.split('.'):
         user = user + user_p
+    print user
     #### user ssh-keygen
     user_cmd = "ssh-keygen -t dsa -P '' -f /home/" + user + "/.ssh/id_rsa"
     #### cp 文件
@@ -101,11 +96,14 @@ def get_ssh_key(email):
 
     mv_cmd_pub = "mv /home/" + user + "/.ssh/id_rsa.pub /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa_pub"
 
+    cf = ConfigParser.ConfigParser()
+    cf.read("/web/CMDB/app/backend/config.ini")
+
+    salt_url = cf.get("saltstack", "url")
     salt_user = cf.get("saltstack", "user")
     salt_pass = cf.get("saltstack", "pass")
+    salt_master_name = cf.get("saltstack", "salt_master_name")
 
-
-    salt_url = "https://" + salt_master_ip + ":8888"
     sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
     #### 创建用户
     print sapi.remote_execution(salt_master_name, 'user.add', {'arg1': user})
