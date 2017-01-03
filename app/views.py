@@ -394,7 +394,7 @@ def approval_accept(request):
                 sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
                 #### 创建用户
                 print sapi.remote_execution(hostname, 'user.add', {'arg1': user})
-                aDay = timedelta(days=-1)
+                aDay = timedelta(days=30)
                 time_now =  create_time + aDay
                 print time_now
                 print sapi.remote_execution(hostname, 'cmd.run', {'arg1': "usermod -e " +str(time_now)+" "+ user})
