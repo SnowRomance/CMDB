@@ -390,7 +390,7 @@ def approval_accept(request):
                 salt_url = "https://" + salt_master_ip[ip_num] + ":8888"
                 sapi = SaltAPI(url=salt_url, username=salt_user, password=salt_pass)
                 #### 创建用户
-                print sapi.remote_execution(hostname, 'user.add', {'arg1': user})
+                print sapi.remote_execution(hostname, 'user.add', {'arg1': "-e 30",'arg2': user})
                 #### 生成 ssh-key
                 print sapi.remote_execution(hostname, 'cmd.run',
                                             {'arg1': user_cmd,
