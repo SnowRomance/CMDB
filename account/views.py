@@ -36,7 +36,7 @@ def ssh_key(email):
              "/.ssh/id_rsa /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa"
 
     mv_cmd_pub = "mv /var/cache/salt/master/minions/" + jumper_ip[0] + "/files/home/" + user + \
-             "/.ssh/id_rsa /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa_pub"
+             "/.ssh/id_rsa_pub /web/CMDB/static/upload/" + user + "_cmdb_login_id_rsa_pub"
 
     cf = ConfigParser.ConfigParser()
     cf.read("/web/CMDB/app/backend/config.ini")
