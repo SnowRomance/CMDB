@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Approval_Request{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/app/approval_request_list.css"/>
+{% endblock %}
+
+{% block content %}
+<div id="contain">
+    <table class="table-default table-approval_deal">
+        <tr>
+            <th>集群</th>
+            <th>主机组</th>
+            <th>主机名称</th>
+            <th>公网 IP</th>
+            <th>内网 IP</th>
+            <th>状态</th>
+            <th>申请时间</th>
+        </tr>
+        {% for host_request in host_requests_list %}
+        <tr>
+            <td>{{ host_request.idc_name }}</td>
+            <td>{{ host_request.group_name }}</td>
+            <td>{{ host_request.nick_name }}</td>
+            <td>{{ host_request.ip }}</td>
+            <td>{{ host_request.inner_ip }}</td>
+            <td>{% if host_request.status == 0 %}未审核{% elif host_request.status == 1 %}审核通过
+                {% elif host_request.status == 2 %}审核不通过{% endif %}
+            </td>
+            <td>{{ host_request.create_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

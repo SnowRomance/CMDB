@@ -25,6 +25,30 @@ config_list_sal = saltconfig()
 sapi = SaltAPI(url=config_list_sal["salt_url"], username=config_list_sal["salt_user"], password=config_list_sal["salt_pass"])
 
 
+#### Common
+def get_user_dict(filteruser):
+    user = {}
+    user["id"] = filteruser[0]
+    user["password"] = filteruser[1]
+    user["username"] = filteruser[4]
+    user["email"] = filteruser[7]
+    return user
+
+
+def get_host_dict(filterhost):
+    host = {}
+
+    host["id"] = filterhost[0]
+    host["ip"] = filterhost[1]
+    host["hostname"] = filterhost[2]
+    host["group_name"] = filterhost[3]
+    host["nick_name"] = filterhost[4]
+    host["idc_name"] = filterhost[5]
+    host["inner_ip"] = filterhost[6]
+
+    return host
+
+
 # Create your views here.
 def index(request):
     return render_to_response("app/index.html", {'user': request.user})
@@ -112,20 +136,6 @@ def modify_group_remark(request):
     rjson = json.dumps({"status": fun})
     response.write(rjson)
     return response
-
-
-def get_host_dict(filterhost):
-    host = {}
-
-    host["id"] = filterhost[0]
-    host["ip"] = filterhost[1]
-    host["hostname"] = filterhost[2]
-    host["group_name"] = filterhost[3]
-    host["nick_name"] = filterhost[4]
-    host["idc_name"] = filterhost[5]
-    host["inner_ip"] = filterhost[6]
-
-    return host
 
 
 ### host_list ###
@@ -247,7 +257,7 @@ def change_group(request):
     response.write(rjson)
     return response
 
-
+#### 获取 申请主机页面
 def get_approval_request(request):
     idc_list = Idc.objects.all()
     group_list = []
@@ -265,13 +275,27 @@ def get_approval_request(request):
     return render_to_response("app/approval_request.html", {"user": request.user, "idc_list": idc_list, "group_list": group_list, "host_list": host_list})
 
 
-def get_user_dict(filteruser):
-    user = {}
-    user["id"] = filteruser[0]
-    user["password"] = filteruser[1]
-    user["username"] = filteruser[4]
-    user["email"] = filteruser[7]
-    return user
+#### 获取申请主机列表
+def approval_request_list(request):
+    user = request.user
+    host_requests_list = []
+    host_requests = HostRequest.objects.filter(username=user)
+    if host_requests:
+        for host_request_object in host_requests:
+            host_request = {}
+            host_request["nick_name"] = host_request_object.nick_name
+            host_request["status"] = host_request_object.status
+            host_request["create_time"] = host_request_object.create_time
+            host_list = HostList.objects.filter(hostname=host_request_object.hostname)
+            if host_list:
+                host_request["idc_name"] = host_list[0].idc_name
+                host_request["group_name"] = host_list[0].group_name
+                host_request["ip"] = host_list[0].ip
+                host_request["inner_ip"] = host_list[0].inner_ip
+            host_requests_list.append(host_request)
+
+    print host_requests_list
+    return render_to_response("app/approval_request_list.html", {"user": user, "host_requests_list": host_requests_list})
 
 
 def send_mail(from_user, to_user, title, content):
@@ -442,10 +466,10 @@ def approval_accept(request):
             print sapi.remote_execution(hostname, 'cmd.run',
                                         {'arg1': chw_cut_cmd,
                                          'arg2': 'runas=root'})
-            lease = Lease()
-            lease.hostname = hostname
-            lease.username = request_user
-            lease.save()
+            # lease = Lease()
+            # lease.hostname = hostname
+            # lease.username = request_user
+            # lease.save()
         host_request.update(status=request_status)
 
     #### send mail
