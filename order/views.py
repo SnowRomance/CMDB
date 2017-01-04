@@ -20,7 +20,7 @@ c = db.cursor()
 
 def inbox(request):
     user = request.user
-    c.execute("select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2 and ae.to_user="+user)
+    c.execute("select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2 and ae.to_user='" +user + "'")
     inbox_list = []
     for inbox_object in c.fetchall():
         inbox = {}
@@ -38,7 +38,7 @@ def inbox(request):
 def outbox(request):
     user = request.user
     c.execute(
-        "select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2 and ae.from_user=" + user)
+        "select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2 and ae.from_user='" +user + "'")
     outbox_list = []
     for outbox_object in c.fetchall():
         outbox = {}
