@@ -297,7 +297,7 @@ def approval_request(request):
     for host in host_list:
         hostname = host["hostname"]
         nickname = host["nickname"]
-        if not HostRequest.objects.filter(hostname=hostname):
+        if not HostRequest.objects.filter(hostname=hostname, username=username):
             host_request = HostRequest()
             host_request.hostname = hostname
             host_request.username = username
