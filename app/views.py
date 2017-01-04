@@ -257,7 +257,7 @@ def get_approval_request(request):
         group_list = Group.objects.filter(idc_name=idc_name)
         if group_list:
             group_name = group_list[0].group_name
-            c.execute("select ah.* from app_hostlist ah where ah.hostname not in (select al.hostname from app_lease al where al.username = '"+ str(request.user) +"') and ah.group_name='" + str(group_name) + "' and ah.idc_name='" + str(idc_name) + "'")
+            c.execute("select ah.* from app_hostlist ah where ah.hostname not in (select ahq.hostname from app_hostrequest ahq where ahq.username = '"+ str(request.user) +"' and ahq.status=0) and ah.group_name='" + str(group_name) + "' and ah.idc_name='" + str(idc_name) + "'")
 
             for filterhost in c.fetchall():
                 host = get_host_dict(filterhost)
@@ -286,6 +286,7 @@ def send_mail(from_user, to_user, title, content):
     user_mail.email_id = email.id
     user_mail.username = to_user
     user_mail.save()
+
 
 def approval_request(request):
     host_list = request.POST.get("host_list")
