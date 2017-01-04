@@ -14,18 +14,22 @@ from datetime import timedelta
 import ConfigParser
 import json
 import sys
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
 # Create your views here.
 
 config_list = dbconfig()
-db = mysql.connect(host=config_list["host"], user=config_list["user"] ,passwd=config_list["pass"], db=config_list["name"], charset="utf8")
+db = mysql.connect(host=config_list["host"], user=config_list["user"], passwd=config_list["pass"],
+                   db=config_list["name"], charset="utf8")
 db.autocommit(True)
 c = db.cursor()
 
 config_list_sal = saltconfig()
-sapi = SaltAPI(url=config_list_sal["salt_url"], username=config_list_sal["salt_user"], password=config_list_sal["salt_pass"])
+sapi = SaltAPI(url=config_list_sal["salt_url"], username=config_list_sal["salt_user"],
+               password=config_list_sal["salt_pass"])
+
 
 #### approval ####
 def change_idc(request):
@@ -39,7 +43,7 @@ def change_idc(request):
 
     group_name = ""
     if len(group_list) != 0:
-        group_name  = group_list[0].group_name
+        group_name = group_list[0].group_name
     host_list = HostList.objects.filter(group_name=group_name)
     host_list_dict = {}
     inum = 0
@@ -68,6 +72,7 @@ def change_group(request):
     response.write(rjson)
     return response
 
+
 #### 获取 申请主机页面
 def get_approval_request(request):
     idc_list = Idc.objects.all()
@@ -78,12 +83,17 @@ def get_approval_request(request):
         group_list = Group.objects.filter(idc_name=idc_name)
         if group_list:
             group_name = group_list[0].group_name
-            c.execute("select ah.* from app_hostlist ah where ah.hostname not in (select ahq.hostname from approval_hostrequest ahq where ahq.username = '"+ str(request.user) +"' and ahq.status=0) and ah.group_name='" + str(group_name) + "' and ah.idc_name='" + str(idc_name) + "'")
+            c.execute(
+                "select ah.* from app_hostlist ah where ah.hostname not in (select ahq.hostname from approval_hostrequest ahq where ahq.username = '" + str(
+                    request.user) + "' and ahq.create_time > DATE_ADD(CURDATE(), Interval -1 month)) and ah.group_name='" + str(
+                    group_name) + "' and ah.idc_name='" + str(idc_name) + "'")
 
             for filterhost in c.fetchall():
                 host = get_host_dict(filterhost)
                 host_list.append(host)
-    return render_to_response("approval/approval_request.html", {"user": request.user, "idc_list": idc_list, "group_list": group_list, "host_list": host_list})
+    return render_to_response("approval/approval_request.html",
+                              {"user": request.user, "idc_list": idc_list, "group_list": group_list,
+                               "host_list": host_list})
 
 
 #### 获取申请主机列表
@@ -106,7 +116,8 @@ def approval_request_list(request):
             host_requests_list.append(host_request)
 
     print host_requests_list
-    return render_to_response("approval/approval_request_list.html", {"user": user, "host_requests_list": host_requests_list})
+    return render_to_response("approval/approval_request_list.html",
+                              {"user": user, "host_requests_list": host_requests_list})
 
 
 def send_mail(from_user, to_user, title, content):
@@ -202,7 +213,7 @@ def approval_accept(request):
     request_user = request.GET.get("request_user")
     request_nick_name_list = []
     requestid_list = requestid_list.split(",")
-    for key in range(0, len(requestid_list)-1):
+    for key in range(0, len(requestid_list) - 1):
         host_request = HostRequest.objects.filter(id=requestid_list[key])
         request_nick_name_list.append(host_request[0].nick_name)
         if request_status == "1":
@@ -240,16 +251,16 @@ def approval_accept(request):
             #### 创建用户
             print sapi.remote_execution(hostname, 'user.add', {'arg1': user})
             aDay = timedelta(days=30)
-            time_now =  create_time + aDay
-            print sapi.remote_execution(hostname, 'cmd.run', {'arg1': "usermod -e " + str(time_now)+" " + user})
+            time_now = create_time + aDay
+            print sapi.remote_execution(hostname, 'cmd.run', {'arg1': "usermod -e " + str(time_now) + " " + user})
             #### 生成 ssh-key
             print sapi.remote_execution(hostname, 'cmd.run',
                                         {'arg1': user_cmd,
                                          'arg2': 'runas=' + user})
             #### cp.get_file authrized_keys
             print sapi.remote_execution(hostname, 'cp.get_file',
-                                        {'arg1': "salt://"+user+"_cmdb_login_id_rsa_pub",
-                                         'arg2': "/home/"+user+"/.ssh/authorized_keys"})
+                                        {'arg1': "salt://" + user + "_cmdb_login_id_rsa_pub",
+                                         'arg2': "/home/" + user + "/.ssh/authorized_keys"})
 
             #### cp.get_file id_rsa
             print sapi.remote_execution(hostname, 'cp.get_file',
@@ -263,7 +274,7 @@ def approval_accept(request):
 
             #### chowd user:user .ssh
             print sapi.remote_execution(hostname, 'cmd.run',
-                                        {'arg1': "chown -R "+user + ":" + user+" /home/" +user + "/.ssh"})
+                                        {'arg1': "chown -R " + user + ":" + user + " /home/" + user + "/.ssh"})
 
             ### 修改 sudoers 添加 username sudo 权限
             print sapi.remote_execution(hostname, 'cmd.run',
@@ -284,7 +295,7 @@ def approval_accept(request):
         host_request.update(status=request_status)
 
     #### send mail
-    content = "您所申请的主机："+ str(request_nick_name_list) +"已经通过审核,可以通过跳板机登陆"
+    content = "您所申请的主机：" + str(request_nick_name_list) + "已经通过审核,可以通过跳板机登陆"
     send_mail("admin", request_user, "主机申请", content)
 
     return HttpResponseRedirect("/approval/get_approval_accept_page/")

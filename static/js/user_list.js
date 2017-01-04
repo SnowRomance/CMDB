@@ -10,7 +10,7 @@ $(function(){
             _parentTd.find("label").html(_inputHtml);
         }
     });
-    $(".hovertable").on('keyup','#permissions',function(event){
+    $(".table-default").on('keyup','#permissions',function(event){
         var _this = $(this);
         var _parentTd = _this.parents('td');
         var user_id = _parentTd.find("span").attr("data-userid");
