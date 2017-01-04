@@ -15,5 +15,7 @@ def saltconfig():
     salt_url = cf.get("saltstack", "url")
     salt_user = cf.get("saltstack", "user")
     salt_pass = cf.get("saltstack", "pass")
-    salt = {"salt_url": salt_url, "salt_user": salt_user, "salt_pass": salt_pass}
+    salt_ip = cf.get("saltstack", "salt_ip")
+    salt_master_name = cf.get("saltstack", "salt_master_name")
+    salt = {"salt_url": salt_url, "salt_user": salt_user, "salt_pass": salt_pass, "salt_ip": salt_ip, "salt_master_name": salt_master_name}
     return salt

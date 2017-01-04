@@ -165,10 +165,11 @@ def host_list(request):
 def get_add_host_page(request):
     idc_list = Idc.objects.all()
     group_list = Group.objects.all()
-    return render_to_response("app/add_host.html", {"user": request.user, "idc_list": idc_list, "group_list": group_list})
+    salt_ip = config_list_sal["salt_ip"]
+    return render_to_response("app/add_host.html", {"user": request.user, "salt_ip": salt_ip, "idc_list": idc_list, "group_list": group_list})
 
-def add_host(request):
-    install_string = "yum install epel-release -y;yum install salt-minion -y;sed -i 's/#master: salt/master: $1/g' /etc/salt/minion;service salt-minion start;"
+# def add_host(request):
+#     install_string = "yum install epel-release -y;yum install salt-minion -y;sed -i 's/#master: salt/master: $1/g' /etc/salt/minion;service salt-minion start;"
 
 
 #### user ###

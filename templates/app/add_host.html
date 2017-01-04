@@ -15,7 +15,7 @@
             <span>Idc :</span>
             <select id="idc" name="idc_name">
                 {% for idc in idc_list %}
-                    <option data-saltip="{{ idc.salt_ip }}">{{ idc.idc_name }}</option>
+                    <option data-saltip="{{ salt_ip }}">{{ idc.idc_name }}</option>
                 {% endfor %}
             </select>
         </label>

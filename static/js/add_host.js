@@ -14,4 +14,8 @@ $(function(){
         _parentTd.find("select#group").val();
         _parentTd.find(".hd_text").show();
     });
+
+    $("body").on("click", function(){
+        $(".hd_text").css("display", "none")
+    });
 });
