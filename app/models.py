@@ -125,4 +125,8 @@ class HostRequest(models.Model):
     status = models.IntegerField(default=0) #0-未审批 1-通过
     create_time = models.DateField(default=datetime.datetime.now(), verbose_name=u'开始时间')
 
+    def __unicode__(self):
+        return {"id": self.id, "username": self.username, "hostname": self.hostname, "nick_name": self.nick_name,
+                "lease_time": self.lease_time, "status": self.status, "create_time": str(self.create_time)}
+
 

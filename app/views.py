@@ -114,6 +114,20 @@ def modify_group_remark(request):
     return response
 
 
+def get_host_dict(filterhost):
+    host = {}
+
+    host["id"] = filterhost[0]
+    host["ip"] = filterhost[1]
+    host["hostname"] = filterhost[2]
+    host["group_name"] = filterhost[3]
+    host["nick_name"] = filterhost[4]
+    host["idc_name"] = filterhost[5]
+    host["inner_ip"] = filterhost[6]
+
+    return host
+
+
 ### host_list ###
 def sync_host(request):
     accepet_keys = sapi.list_all_key()
@@ -234,20 +248,6 @@ def change_group(request):
     return response
 
 
-def get_host_dict(filterhost):
-    host = {}
-
-    host["id"] = filterhost[0]
-    host["ip"] = filterhost[1]
-    host["hostname"] = filterhost[2]
-    host["group_name"] = filterhost[3]
-    host["nick_name"] = filterhost[4]
-    host["idc_name"] = filterhost[5]
-    host["inner_ip"] = filterhost[6]
-
-    return host
-
-
 def get_approval_request(request):
     idc_list = Idc.objects.all()
     group_list = []
@@ -343,6 +343,22 @@ def get_approval_accept_page(request):
     if request_user_list:
         host_requests = HostRequest.objects.filter(status=0, username=request_user_list[0])
     return render_to_response("app/approval_deal.html", locals())
+
+
+def get_approval_accept_page_by_username(request):
+    host_requests = []
+    username = request.POST.get("username")
+    if User.objects.filter(username=username):
+        host_requests = HostRequest.objects.filter(status=0, username=username)
+    host_requests_dict = {}
+    inum = 0
+    for host_request in host_requests:
+        host_requests_dict[str(inum)] = host_request.__unicode__()
+        inum += 1
+    response = HttpResponse()
+    response['Content-Type'] = 'text/javascript'
+    response.write(json.dumps(host_requests_dict))
+    return response
 
 
 def approval_accept(request):
