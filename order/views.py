@@ -20,7 +20,7 @@ c = db.cursor()
 
 def inbox(request):
     user = request.user
-    c.execute("select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2")
+    c.execute("select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2 and ae.to_user="+user)
     inbox_list = []
     for inbox_object in c.fetchall():
         inbox = {}
@@ -37,7 +37,19 @@ def inbox(request):
 
 def outbox(request):
     user = request.user
-    outbox_list = Email.objects.filter(from_user=user)
+    c.execute(
+        "select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2 and ae.from_user=" + user)
+    outbox_list = []
+    for outbox_object in c.fetchall():
+        outbox = {}
+        outbox["id"] = outbox_object[0]
+        outbox["from_user"] = outbox_object[3]
+        outbox["to_user"] = outbox_object[5]
+        outbox["title"] = outbox_object[4]
+        outbox["content"] = outbox_object[1]
+        outbox["create_time"] = outbox_object[2]
+        outbox["status"] = outbox_object[6]
+        outbox_list.append(outbox)
     return render_to_response("order/outbox.html", locals())
 
 

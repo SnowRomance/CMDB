@@ -302,7 +302,7 @@ def approval_request(request):
             host_request = HostRequest()
             host_request.hostname = hostname
             host_request.username = username
-            host_request.nickname = nickname
+            host_request.nick_name = nickname
             host_request.save()
         hostname_list.append(nickname)
 
