@@ -27,8 +27,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="261" column="43" selection-start-line="261" selection-start-column="43" selection-end-line="261" selection-end-column="43" />
+            <state relative-caret-position="304">
+              <caret line="259" column="57" selection-start-line="259" selection-start-column="57" selection-end-line="259" selection-end-column="57" />
               <folding>
                 <element signature="e#23#80#0" expanded="true" />
               </folding>
@@ -527,7 +527,14 @@
       <option name="project" value="LOCAL" />
       <updated>1483447268432</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="host request change">
+      <created>1483498809433</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1483498809433</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -572,7 +579,8 @@
     <MESSAGE value="idc change" />
     <MESSAGE value="host_list change" />
     <MESSAGE value="host accept change" />
-    <option name="LAST_COMMIT_MESSAGE" value="host accept change" />
+    <MESSAGE value="host request change" />
+    <option name="LAST_COMMIT_MESSAGE" value="host request change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -741,8 +749,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="261" column="43" selection-start-line="261" selection-start-column="43" selection-end-line="261" selection-end-column="43" />
+        <state relative-caret-position="304">
+          <caret line="259" column="57" selection-start-line="259" selection-start-column="57" selection-end-line="259" selection-end-column="57" />
           <folding>
             <element signature="e#23#80#0" expanded="true" />
           </folding>
