@@ -3,7 +3,7 @@ $(function(){
         idc_name = $(".idc").val()
         $.ajax({
             type:"POST",
-            url:"/app/change_idc/",
+            url:"/approval/change_idc/",
             data: {"idc_name": idc_name},
             dataType:"json",
             success:function(data){
@@ -30,7 +30,7 @@ $(function(){
         group_name = $(".group").val()
         $.ajax({
             type:"POST",
-            url:"/app/change_group/",
+            url:"/approval/change_group/",
             data: {"group_name": group_name},
             dataType:"json",
             success:function(data){
@@ -90,12 +90,12 @@ $(function(){
         console.log(host_list)
         $.ajax({
             type:"POST",
-            url:"/app/approval_request/",
+            url:"/approval/approval_request/",
             data: {"host_list": JSON.stringify(host_list)},
             dataType:"json",
             success:function(data){
                 console.log('success');
-                location.href="/app/get_approval_request";
+                location.href="/approval/get_approval_request";
             },
             error:function(data){
                 console.log('error');

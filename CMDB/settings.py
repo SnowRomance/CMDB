@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'app',
     'account',
     'order',
+    'approval',
 ]
 
 MIDDLEWARE_CLASSES = [

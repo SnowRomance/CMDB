@@ -11,7 +11,7 @@ $(function(){
         var _user = $(this).val()
         $.ajax({
             type:"POST",
-            url:"/app/get_approval_accept_page_by_username/",
+            url:"/approval/get_approval_accept_page_by_username/",
             data: {"username": _user},
             dataType:"json",
             success:function(data){
@@ -40,7 +40,7 @@ $(function(){
         $(".checkbox:checked").each(function(){
             requestid_list += $(this).attr("data-host_requestid") +","
         })
-        location.href="/app/approval_accept?request_status=1" +"&request_user=" + request_user + "&requestid_list=" + requestid_list
+        location.href="/approval/approval_accept?request_status=1" +"&request_user=" + request_user + "&requestid_list=" + requestid_list
     });
 
     $("#deny").on("click", function(){
@@ -49,6 +49,6 @@ $(function(){
         $(".checkbox:checked").each(function(){
             requestid_list += $(this).attr("data-host_requestid") +","
         })
-        location.href="/app/approval_accept?request_status=2" +"&request_user=" + request_user + "&requestid_list=" + requestid_list
+        location.href="/approval/approval_accept?request_status=2" +"&request_user=" + request_user + "&requestid_list=" + requestid_list
     });
 });

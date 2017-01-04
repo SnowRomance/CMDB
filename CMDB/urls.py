@@ -20,10 +20,12 @@ sys.path.append(os.getcwd())
 from app import urls as app_urls
 from account import urls as account_urls
 from order import urls as order_urls
+from approval import urls as approval_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^app/', include(app_urls)),
     url(r'^account/', include(account_urls)),
     url(r'^order/', include(order_urls)),
+    url(r'^approval/', include(approval_urls)),
 ]
