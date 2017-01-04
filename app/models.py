@@ -119,7 +119,7 @@ class Lease(models.Model):
 class HostRequest(models.Model):
     id = models.AutoField(primary_key=True, verbose_name=u'申请Id')
     username = models.CharField(max_length=50)
-    hostname = models.CharField(max_length=30, unique=True, default="", verbose_name=u'主机名')
+    hostname = models.CharField(max_length=30, default="", verbose_name=u'主机名')
     nick_name = models.CharField(max_length=30, null=True, verbose_name=u'主机别名')
     lease_time = models.IntegerField(default=30) #默认30天
     status = models.IntegerField(default=0) #0-未审批 1-通过
