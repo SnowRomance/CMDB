@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from app.models import *
 import MySQLdb as mysql
 from CMDB.settings_config import dbconfig, saltconfig
+from django.contrib.auth.decorators import login_required
 from app.backend.saltapi import SaltAPI
 from django.contrib.auth.models import User
 from account.models import *
@@ -23,11 +24,13 @@ sapi = SaltAPI(url=config_list_sal["salt_url"], username=config_list_sal["salt_u
 
 
 # Create your views here.
+@login_required
 def index(request):
     return render_to_response("app/index.html", {'user': request.user})
 
 
 ##### idc ###########
+@login_required
 def idc(request):
     idc_list = []
     idc_object_list = Idc.objects.all()
@@ -41,10 +44,12 @@ def idc(request):
     return render_to_response("app/idc.html", {"user": request.user, "idc_list": idc_list})
 
 
+@login_required
 def get_add_idc_page(request):
     return render_to_response("app/add_idc.html", {"user": request.user})
 
 
+@login_required
 def add_idc(request):
     idc_name = request.POST.get("idc_name")
     idc_remark = request.POST.get("idc_remark")
@@ -55,6 +60,7 @@ def add_idc(request):
     return redirect("/app/idc/")
 
 
+@login_required
 def modify_idc_remark(request):
     response = HttpResponse()
     response['Content-Type'] = "text/javascript"
@@ -67,6 +73,7 @@ def modify_idc_remark(request):
 
 
 ### group ###
+@login_required
 def group(request):
     group_list = []
     idc_object_list = Idc.objects.all()
@@ -84,12 +91,14 @@ def group(request):
     return render_to_response("app/group.html", {"user": request.user, "group_list": group_list})
 
 
+@login_required
 def get_add_group_page(request):
     user = request.user
     idc_list = Idc.objects.all()
     return render_to_response("app/add_group.html", locals())
 
 
+@login_required
 def add_group(request):
     group_name = request.POST.get("group_name")
     idc_name = request.POST.get("idc_name")
@@ -100,6 +109,7 @@ def add_group(request):
     return redirect("/app/group/")
 
 
+@login_required
 def modify_group_remark(request):
     response = HttpResponse()
     response['Content-Type'] = "text/javascript"
@@ -112,6 +122,7 @@ def modify_group_remark(request):
 
 
 ### host_list ###
+@login_required
 def sync_host(request):
     accepet_keys = sapi.list_all_key()
     if accepet_keys:
@@ -145,6 +156,8 @@ def sync_host(request):
     response.write(rjson)
     return response
 
+
+@login_required
 def modify_ip(request):
     response = HttpResponse()
     response['Content-Type'] = "text/javascript"
@@ -156,12 +169,14 @@ def modify_ip(request):
     return response
 
 
+@login_required
 def host_list(request):
     user = request.user
     host_list = HostList.objects.all().order_by("idc_name", "group_name")
     return render_to_response("app/host_list.html", locals())
 
 
+@login_required
 def get_add_host_page(request):
     idc_list = Idc.objects.all()
     group_list = Group.objects.all()
@@ -173,12 +188,14 @@ def get_add_host_page(request):
 
 
 #### user ###
+@login_required
 def user_list(request):
     user = request.user
     user_list = UserProfile.objects.all()
     return render_to_response("app/user_list.html", locals())
 
 
+@login_required
 def modify_user_permissions(request):
     user_id = request.POST.get("user_id")
     permissions = request.POST.get("permissions")

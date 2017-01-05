@@ -6,6 +6,7 @@ import MySQLdb as mysql
 from CMDB.settings_config import dbconfig, saltconfig
 from app.backend.saltapi import SaltAPI
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from order.models import *
 from account.models import *
@@ -33,6 +34,7 @@ sapi = SaltAPI(url=config_list_sal["salt_url"], username=config_list_sal["salt_u
 
 
 #### approval ####
+@login_required
 def change_idc(request):
     idc_name = request.POST.get("idc_name")
     group_list = Group.objects.filter(idc_name=idc_name)
@@ -59,6 +61,7 @@ def change_idc(request):
     return response
 
 
+@login_required
 def change_group(request):
     group_name = request.POST.get("group_name")
     host_list = HostList.objects.filter(group_name=group_name)
@@ -75,6 +78,7 @@ def change_group(request):
 
 
 #### 获取 申请主机页面
+@login_required
 def get_approval_request(request):
     idc_list = Idc.objects.all()
     group_list = []
@@ -98,6 +102,7 @@ def get_approval_request(request):
 
 
 #### 获取申请主机列表
+@login_required
 def approval_request_list(request):
     user = request.user
     host_requests_list = []
@@ -121,6 +126,7 @@ def approval_request_list(request):
                               {"user": user, "host_requests_list": host_requests_list})
 
 
+@login_required
 def send_mail(from_user, to_user, title, content):
     email = Email()
     email.from_user = from_user
@@ -135,6 +141,7 @@ def send_mail(from_user, to_user, title, content):
     user_mail.save()
 
 
+@login_required
 def approval_request(request):
     host_list = request.POST.get("host_list")
     host_list = json.loads(host_list)
@@ -179,6 +186,7 @@ def approval_request(request):
     return response
 
 
+@login_required
 def get_approval_accept_page(request):
     user = request.user
     request_user_list = []
@@ -192,6 +200,7 @@ def get_approval_accept_page(request):
     return render_to_response("approval/approval_deal.html", locals())
 
 
+@login_required
 def get_approval_accept_page_by_username(request):
     host_requests = []
     username = request.POST.get("username")
@@ -208,6 +217,7 @@ def get_approval_accept_page_by_username(request):
     return response
 
 
+@login_required
 def approval_accept(request):
     requestid_list = request.GET.get("requestid_list")
     request_status = request.GET.get("request_status")

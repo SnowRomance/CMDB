@@ -61,7 +61,7 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'CMDB.urls'
 
-LOGIN_URL = '/app/index/'
+LOGIN_URL = '/account/login/'
 
 TEMPLATES = [
     {

@@ -6,6 +6,7 @@ import time
 from forms import RegisterForm, LoginForm
 from models import UserProfile
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from app.backend.saltapi import *
 import ConfigParser
@@ -68,7 +69,6 @@ def get_ssh_key(email):
     se.close()
 
 
-# @login_required()
 def userRegister(request):
     curtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
@@ -149,3 +149,8 @@ def login(request):
         return render_to_response("account/login.html",
                                   {'loginForm': loginForm, 'username': username, 'password': password,
                                    'errors': errors})
+
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect('/account/login')

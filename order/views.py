@@ -3,6 +3,7 @@ from order.models import *
 from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 import HTMLParser
 import MySQLdb as mysql
 from CMDB.settings_config import dbconfig
@@ -18,6 +19,7 @@ db = mysql.connect(host=config_list["host"], user=config_list["user"] ,passwd=co
 db.autocommit(True)
 c = db.cursor()
 
+@login_required
 def inbox(request):
     user = request.user
     c.execute("select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2 and ae.to_user='" +str(user) + "'")
@@ -35,6 +37,7 @@ def inbox(request):
     return render_to_response("order/inbox.html", {"user": user, "inbox_list": inbox_list})
 
 
+@login_required
 def outbox(request):
     user = request.user
     c.execute(
@@ -53,6 +56,7 @@ def outbox(request):
     return render_to_response("order/outbox.html", locals())
 
 
+@login_required
 def change_status(request):
     id = request.POST.get("id")
     status = UserMail.objects.filter(email_id=id).update(status=1)
@@ -63,6 +67,7 @@ def change_status(request):
     return response
 
 
+@login_required
 def get_send_page(request):
     user = request.user
     email_title = request.GET.get("email_title")
@@ -72,6 +77,7 @@ def get_send_page(request):
     return render_to_response("order/send.html", locals())
 
 
+@login_required
 def send(request):
     from_user = request.user
     to_user = request.POST.get("to_user")
