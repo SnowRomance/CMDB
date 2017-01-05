@@ -57,6 +57,7 @@
     padding:0 10px;
     border:1px solid #fff;
     border-radius:4px;
+    z-index: 100;
 }
 .user-account li{
     width:120px;
