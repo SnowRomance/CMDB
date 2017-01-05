@@ -15,9 +15,9 @@ $(function(){
         _parentTd.find(".hd_text").show();
     });
 
-    $("body").on("click", function(){
-        if $(".hd_text").hasClass("display: block") {
-            $(".hd_text").css("display", "none")
-        }
-    });
+//    $("body").on("click", function(){
+//        if $(".hd_text").hasClass("display: block") {
+//            $(".hd_text").css("display", "none")
+//        }
+//    });
 });
