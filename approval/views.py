@@ -6,6 +6,7 @@ import MySQLdb as mysql
 from CMDB.settings_config import dbconfig, saltconfig
 from app.backend.saltapi import SaltAPI
 from django.contrib.auth.models import User
+from django.db.models import Q
 from order.models import *
 from account.models import *
 from approval.models import *
@@ -144,7 +145,7 @@ def approval_request(request):
     for host in host_list:
         hostname = host["hostname"]
         nickname = host["nickname"]
-        if not HostRequest.objects.filter(hostname=hostname, username=username):
+        if not HostRequest.objects.filter(~Q(status=2), hostname=hostname, username=username):
             host_request = HostRequest()
             host_request.hostname = hostname
             host_request.username = username
