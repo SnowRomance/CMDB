@@ -16,6 +16,8 @@ $(function(){
     });
 
     $("body").on("click", function(){
-        $(".hd_text").css("display", "none")
+        if $(".hd_text").hasClass("display: block") {
+            $(".hd_text").css("display", "none")
+        }
     });
 });
