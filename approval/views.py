@@ -85,7 +85,7 @@ def get_approval_request(request):
             group_name = group_list[0].group_name
             c.execute(
                 "select ah.* from app_hostlist ah where ah.hostname not in (select ahq.hostname from approval_hostrequest ahq where ahq.username = '" + str(
-                    request.user) + "' and ahq.create_time > DATE_ADD(CURDATE(), Interval -1 month)) and ah.group_name='" + str(
+                    request.user) + "' and ahq.create_time > DATE_ADD(CURDATE(), Interval -1 month) and ahq.status !=2) and ah.group_name='" + str(
                     group_name) + "' and ah.idc_name='" + str(idc_name) + "'")
 
             for filterhost in c.fetchall():
