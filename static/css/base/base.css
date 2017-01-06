@@ -19,6 +19,10 @@ a,a:link, a:visited, a:hover, a:active{
     outline:none;
 }
 
+a > input {
+    color: black;
+}
+
 /*table*/
 .table-default{
 	font-size:13px;

@@ -186,22 +186,3 @@ def get_add_host_page(request):
 # def add_host(request):
 #     install_string = "yum install epel-release -y;yum install salt-minion -y;sed -i 's/#master: salt/master: $1/g' /etc/salt/minion;service salt-minion start;"
 
-
-#### user ###
-@login_required
-def user_list(request):
-    user = request.user
-    user_list = UserProfile.objects.all()
-    return render_to_response("app/user_list.html", locals())
-
-
-@login_required
-def modify_user_permissions(request):
-    user_id = request.POST.get("user_id")
-    permissions = request.POST.get("permissions")
-    result = UserProfile.objects.filter(id=user_id).update(permissions=permissions)
-    response = HttpResponse()
-    response['Content-Type'] = "text/javascript"
-    rjson = json.dumps({"result": result})
-    response.write(rjson)
-    return response

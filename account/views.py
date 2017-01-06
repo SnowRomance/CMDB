@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 import time
 from forms import RegisterForm, LoginForm
 from models import UserProfile
@@ -154,3 +154,23 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/account/login')
+
+
+#### user ###
+@login_required
+def user_list(request):
+    user = request.user
+    user_list = UserProfile.objects.all()
+    return render_to_response("account/user_list.html", locals())
+
+
+@login_required
+def modify_user_permissions(request):
+    user_id = request.POST.get("user_id")
+    permissions = request.POST.get("permissions")
+    result = UserProfile.objects.filter(id=user_id).update(permissions=permissions)
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    rjson = json.dumps({"result": result})
+    response.write(rjson)
+    return response

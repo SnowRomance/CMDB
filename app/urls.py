@@ -17,7 +17,4 @@ urlpatterns = [
     url(r'^get_add_host_page/$', views.get_add_host_page),
     # url(r'^add_host/$', views.add_host),
     url(r'^sync_host/$', views.sync_host),
-
-    url(r'^user_list/$', views.user_list),
-    url(r'^modify_user_permissions/$', views.modify_user_permissions),
 ]
