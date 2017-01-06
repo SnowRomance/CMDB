@@ -47,7 +47,7 @@ $(function(){
                 dataType:"json",
                 data:{"host_id":host_id,"nickname":_nickname},
                 success:function(data){
-                    _parentTd.find("label").html(_remark);
+                    _parentTd.find("label").html(_nickname);
                     $('.nickname').removeClass("disabled");
                 },
                 error:function(data){
@@ -81,7 +81,7 @@ $(function(){
                 dataType:"json",
                 data:{"host_id":host_id,"ip":_ip},
                 success:function(data){
-                    _parentTd.find("label").html(_remark);
+                    _parentTd.find("label").html(_ip);
                     $('.ip').removeClass("disabled");
                 },
                 error:function(data){
@@ -115,7 +115,7 @@ $(function(){
                 dataType:"json",
                 data:{"host_id":host_id,"inner_ip":_inner_ip},
                 success:function(data){
-                    _parentTd.find("label").html(_remark);
+                    _parentTd.find("label").html(_inner_ip);
                     $('.inner_ip').removeClass("disabled");
                 },
                 error:function(data){
