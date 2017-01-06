@@ -19,10 +19,6 @@ a,a:link, a:visited, a:hover, a:active{
     outline:none;
 }
 
-a > input {
-    color: black;
-}
-
 /*table*/
 .table-default{
 	font-size:13px;
@@ -62,6 +58,9 @@ a > input {
 	border:1px solid #a9c6c9;
 }
 
+.table-default input{
+    color: black;
+}
 
 /*button*/
 .btn-default{
