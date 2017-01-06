@@ -15,6 +15,9 @@ urlpatterns = [
     url(r'^modify_group_remark/$', views.modify_group_remark),
 
     url(r'^host_list/$', views.host_list),
+    url(r'^modify_host_nickname/$', views.modify_host_nickname),
+    url(r'^modify_host_ip/$', views.modify_host_ip),
+    url(r'^modify_host_inner_ip/$', views.modify_host_inner_ip),
     url(r'^get_add_host_page/$', views.get_add_host_page),
     url(r'^sync_host/$', views.sync_host),
 ]

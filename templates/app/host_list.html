@@ -20,9 +20,9 @@
             <tr>
                 <td>{{ host.idc_name }}</td>
                 <td>{{ host.group_name }}</td>
-                <td><span class="glyphicon glyphicon-wrench" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.hostname }}</label></td>
-                <td><span class="glyphicon glyphicon-wrench" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.ip }}</label></td>
-                <td><span class="glyphicon glyphicon-wrench" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.inner_ip }}</label></td>
+                <td><span class="glyphicon glyphicon-wrench nickname" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.nick_name }}</label></td>
+                <td><span class="glyphicon glyphicon-wrench ip" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.ip }}</label></td>
+                <td><span class="glyphicon glyphicon-wrench inner_ip" data-hostid="{{ host.id }}"></span>&nbsp;<label>{{ host.inner_ip }}</label></td>
                 <td><span class="glyphicon glyphicon-remove"></span></td>
             </tr>
         {% endfor %}

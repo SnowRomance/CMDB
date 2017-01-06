@@ -158,22 +158,46 @@ def sync_host(request):
 
 
 @login_required
-def modify_ip(request):
+def host_list(request):
+    user = request.user
+    host_list = HostList.objects.all().order_by("idc_name", "group_name")
+    return render_to_response("app/host_list.html", locals())
+
+
+@login_required
+def modify_host_nickname(request):
+    host_id = request.POST.get("host_id")
+    nickname = request.POST.get("nickname")
     response = HttpResponse()
     response['Content-Type'] = "text/javascript"
-    id = request.POST.get("id")
-    ip = request.POST.get("ip")
-    result = c.execute("update app_hostlist ah set ip=%s where id=%s", [ip, id])
+    result = HostList.objects.filter(id=host_id).update(nick_name=nickname)
     rjson = json.dumps({"result": result})
     response.write(rjson)
     return response
 
 
 @login_required
-def host_list(request):
-    user = request.user
-    host_list = HostList.objects.all().order_by("idc_name", "group_name")
-    return render_to_response("app/host_list.html", locals())
+def modify_host_ip(request):
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    host_id = request.POST.get("host_id")
+    ip = request.POST.get("ip")
+    result = HostList.objects.filter(id=host_id).update(ip=ip)
+    rjson = json.dumps({"result": result})
+    response.write(rjson)
+    return response
+
+
+@login_required
+def modify_host_inner_ip(request):
+    response = HttpResponse()
+    response['Content-Type'] = "text/javascript"
+    host_id = request.POST.get("host_id")
+    inner_ip = request.POST.get("inner_ip")
+    result = HostList.objects.filter(id=host_id).update(ip=inner_ip)
+    rjson = json.dumps({"result": result})
+    response.write(rjson)
+    return response
 
 
 @login_required
