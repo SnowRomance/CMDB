@@ -10,7 +10,7 @@ $(function(){
             _parentTd.find("label").html(_inputHtml);
         }
     });
-    $(".hovertable").on('keyup','#remark',function(event){
+    $(".table-default").on('keyup','#remark',function(event){
         var _this = $(this);
         var _parentTd = _this.parents('td');
         var idc_id = _parentTd.find("span").attr("data-idcid");
