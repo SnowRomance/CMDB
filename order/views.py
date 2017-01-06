@@ -1,4 +1,4 @@
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 from order.models import *
 from django.db.models import Q
 from django.shortcuts import render_to_response
@@ -15,14 +15,24 @@ import json
 html_parser = HTMLParser.HTMLParser()
 
 config_list = dbconfig()
-db = mysql.connect(host=config_list["host"], user=config_list["user"] ,passwd=config_list["pass"], db=config_list["name"], charset="utf8")
+db = mysql.connect(host=config_list["host"], user=config_list["user"], passwd=config_list["pass"],
+                   db=config_list["name"], charset="utf8")
 db.autocommit(True)
 c = db.cursor()
+
 
 @login_required
 def inbox(request):
     user = request.user
-    c.execute("select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2 and ae.to_user='" +str(user) + "'")
+    sql = """
+        select ae.*, aue.status
+        from order_email as ae, order_usermail as aue
+        where
+            ae.id = aue.email_id
+            and aue.status != 2
+            and ae.to_user=%s
+    """
+    c.execute(sql, [str(user)])
     inbox_list = []
     for inbox_object in c.fetchall():
         inbox = {}
@@ -40,8 +50,15 @@ def inbox(request):
 @login_required
 def outbox(request):
     user = request.user
-    c.execute(
-        "select ae.*, aue.status from order_email ae, order_usermail aue where ae.id = aue.email_id and aue.status != 2 and ae.from_user='" +str(user) + "'")
+    sql = """
+        select ae.*, aue.status
+        from order_email as ae, order_usermail as aue
+        where
+            ae.id = aue.email_id
+            and aue.status != 2
+            and ae.from_user=%s
+    """
+    c.execute(sql, [str(user)])
     outbox_list = []
     for outbox_object in c.fetchall():
         outbox = {}

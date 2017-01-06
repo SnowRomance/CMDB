@@ -40,7 +40,8 @@ class HostList(models.Model):
     inner_ip = models.CharField(max_length=20, null=True, verbose_name=u'内网IP地址')
 
     def __unicode__(self):
-        return {"id": self.id, "ip": self.ip, "hostname": self.hostname, "group_name": self.group_name, "nick_name": self.nick_name, "idc_name": self.idc_name, 'inner_ip': self.inner_ip}
+        return {"id": self.id, "ip": self.ip, "hostname": self.hostname, "group_name": self.group_name,
+                "nick_name": self.nick_name, "idc_name": self.idc_name, 'inner_ip': self.inner_ip}
 
     class Meta:
         verbose_name = u'主机列表'
@@ -62,8 +63,10 @@ class ServerAsset(models.Model):
     os = models.CharField(max_length=20, verbose_name=u'操作系统')
 
     def __unicode__(self):
-        return {"manufacturer": self.manufacturer, "productname": self.productname, "service_tag": self.service_tag, "cpu_model": self.cpu_model, "cpu_nums": self.cpu_nums,
-                "cpu_groups": self.cpu_groups, "mem": self.mem, "disk": self.disk, "hostname": self.hostname, "ip": self.ip, "os": self.os}
+        return {"manufacturer": self.manufacturer, "productname": self.productname, "service_tag": self.service_tag,
+                "cpu_model": self.cpu_model, "cpu_nums": self.cpu_nums,
+                "cpu_groups": self.cpu_groups, "mem": self.mem, "disk": self.disk, "hostname": self.hostname,
+                "ip": self.ip, "os": self.os}
 
     class Meta:
         verbose_name = u'主机资产信息'
@@ -103,17 +106,14 @@ class salt_return(models.Model):
     full_ret = models.TextField()
 
     def __unicode__(self):
-        return {"fun": self.fun, "jid": self.jid, "result": self.result, "host": self.host, "success": self.success, "full_ret": self.full_ret}
+        return {"fun": self.fun, "jid": self.jid, "result": self.result, "host": self.host, "success": self.success,
+                "full_ret": self.full_ret}
 
     class Meta:
         verbose_name = u'命令返回结果'
         verbose_name_plural = u'命令返回结果'
 
-
 # class Lease(models.Model):
 #     username = models.CharField(max_length=50)
 #     hostname = models.CharField(max_length=30, default="", verbose_name=u'主机名')
 #     lease_time = models.IntegerField(default=30) #默认30天
-
-
-
