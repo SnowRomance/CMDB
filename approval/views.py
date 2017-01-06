@@ -178,7 +178,7 @@ def approval_request(request):
             host_request.save()
         hostname_list.append(nickname)
 
-    c.execute("select auth_user.* from auth_user where username='" + str(username) + "'")
+    c.execute("select auth_user.* from auth_user where username=%s", [str(username)])
     filteruser = c.fetchone()
     if filteruser is not None:
         user = get_user_dict(filteruser)
@@ -249,7 +249,7 @@ def approval_accept(request):
             hostname = host_request[0].hostname
             create_time = host_request[0].create_time
 
-            c.execute("select auth_user.* from auth_user where username='" + str(request_user) + "'")
+            c.execute("select auth_user.* from auth_user where username=%s", [str(request_user)])
             filteruser = c.fetchone()
             if filteruser is not None:
                 user = get_user_dict(filteruser)
